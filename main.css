@@ -1,0 +1,260 @@
+/* Main */
+main {
+    grid-column: 2;
+    padding: 10px;
+    min-height: 0;
+}
+
+.table-container{
+    border: 2px solid var(--table-border-color);
+    height: 100%;
+    overflow: auto;
+    background: #E6F5FF;
+    overscroll-behavior: none;
+}
+
+/* Table Configuration */  
+table {
+    border-collapse: separate;
+    border-spacing: 0px;
+    width: max-content;
+
+    font-size: 15px;
+    text-align: center;
+    }
+
+th {
+    height: 50px;
+    padding: 10px;
+
+    font-family: "Lexend", sans-serif;
+    font-weight: 500;
+    font-size: 1.15em;
+}
+
+td {
+    scrollbar-width: none;          
+    -ms-overflow-style: none;       
+}
+
+td::-webkit-scrollbar {
+    display: none;                  
+}
+
+td {
+    padding: 5px;
+    white-space: nowrap;
+    overflow: scroll;
+
+    font-family: "Overpass", sans-serif;
+}
+
+.no-scroll {
+    overflow: visible;
+}
+
+.span2 {
+    column-span: 2;
+}
+
+/* Table Sticky Rows/Columns */
+th {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+td:nth-child(1), th:nth-child(1) {
+    position: sticky;
+    left: 0px;
+    }
+
+td:nth-child(2), th:nth-child(2) {
+    position: sticky;
+    left: 50px;
+}
+
+th:nth-child(1), th:nth-child(2){
+    z-index: 2;
+}
+
+/* Table Borders */
+th {
+    border-bottom: 2px solid var(--table-border-color);
+}
+
+td {
+    border-bottom: 1px solid var(--table-border-color);
+}
+
+th:not(:is(:nth-child(1), :nth-child(3))) {
+    border-left: 1px solid var(--table-border-color);
+}
+
+td:nth-child(n+4) {
+    border-left: 0.5px dashed var(--table-border-color);
+}
+
+tr:last-child td {
+    border-bottom: 2px solid var(--table-border-color);
+}
+
+td:nth-child(2), th:nth-child(2){
+    border-right: 2px solid var(--table-border-color);
+}
+
+td:nth-child(2)::after, th:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 10px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0));
+}
+
+/* Table Header Buttons */
+th:nth-child(n+3)::after{
+    content: "";
+    position: absolute;
+
+    width: 20px;
+    height: 20px;
+    right: 10px;
+    top: 50% - 10px;
+
+    border: 1px solid #90A1B9;
+    border-radius: 5px;
+    background: #E2E8F0;
+}
+
+th:nth-child(n+3) {
+    padding-right: 36px;
+}
+
+/* Table Width Control */
+.w0 {
+    min-width: 50px;
+}
+
+.w1 {
+    min-width: 150px;
+    max-width: 250px;
+}
+
+.w1f {
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.w2 {
+    min-width: 250px;
+    max-width: 350px;
+}
+
+.w3{
+    min-width: 350px;
+    max-width: 450px;
+}
+
+/* Table Color Styling */
+th.basic {
+    background: var(--table-cell-basic-header-color);
+}
+
+th.pharmc {
+    background: var(--table-cell-pharmc-header-color);
+}
+
+th.therap {
+    background: var(--table-cell-therap-header-color);
+}
+
+th.practuse {
+    background: var(--table-cell-practuse-header-color);
+}
+
+th.practsafe {
+    background: var(--table-cell-practsafe-header-color);
+}
+
+th.pk {
+    background: var(--table-cell-pk-header-color);
+}
+
+tr:nth-child(odd) td.basic {
+    background: var(--table-cell-basic-cell-color-lighter);
+}
+
+tr:nth-child(even) td.basic {
+    background: var(--table-cell-basic-cell-color-darker);
+}
+
+tr:nth-child(odd) td.pharmc {
+    background: var(--table-cell-pharmc-cell-color-lighter);
+}
+
+tr:nth-child(even) td.pharmc {
+    background: var(--table-cell-pharmc-cell-color-darker);
+}
+
+tr:nth-child(odd) td.therap {
+    background: var(--table-cell-therap-cell-color-lighter);
+}
+
+tr:nth-child(even) td.therap {
+    background: var(--table-cell-therap-cell-color-darker);
+}
+
+tr:nth-child(odd) td.practuse {
+    background: var(--table-cell-practuse-cell-color-lighter);
+}
+
+tr:nth-child(even) td.practuse {
+    background: var(--table-cell-practuse-cell-color-darker);
+}
+
+tr:nth-child(odd) td.practsafe {
+    background: var(--table-cell-practsafe-cell-color-lighter);
+}
+
+tr:nth-child(even) td.practsafe {
+    background: var(--table-cell-practsafe-cell-color-darker);
+}
+
+tr:nth-child(odd) td.pk {
+    background: var(--table-cell-pk-cell-color-lighter);
+}
+
+tr:nth-child(even) td.pk {
+    background: var(--table-cell-pk-cell-color-darker);
+}
+
+tr:hover, tr:hover td:nth-child(-n+2) {
+	background: #FAEDCA !important;
+}
+    
+td:hover, td:hover td:nth-child(-n+2) {
+	background: #FCE5AC !important;
+}
+
+/* Responsive Web Design */
+@media (max-width: 500px) {
+	nav {
+        display: none;
+    }
+    
+    main {
+        grid-column: 1 / span 2;
+    }
+}
+
+/* Text Styling */ 
+.textFound {
+    font-weight: bold;
+}
+
+td.drug-no {
+    font-family: "Ubunto Mono", monospace;
+}

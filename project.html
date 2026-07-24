@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> BPharm Course Drug Directory </title>
+<link rel="stylesheet" href="layout.css">
+<link rel="stylesheet" href="nav.css"> 
+<link rel="stylesheet" href="main.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?
+family=Lexend:wght@100..900
+&family=Overpass:ital,wght@0,100..900;1,100..900
+&family=Roboto+Slab:wght@100..900
+&family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900
+&family=Source+Sans+3:ital,wght@0,200..900;1,200..900
+&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<script src="config.js" defer></script> 
+<script src="data.js" defer></script> 
+<script src="project.js" defer></script> 
+<style>
+* {
+    outline: 0px dotted yellow;
+}
+
+</style>
+</head>
+
+<body>
+<div class="layout">
+	<nav>
+    	<div class="side-name"> 
+        	<div class="name-projname"> BCDD </div> 
+            <div class="name-ver"> Experimental Version</div>
+      	</div>
+        <div class="side-search">
+            <div>
+                <div class="search-drug search-name"> Drug Search </div>
+                <input class="search-drug search-input" name="dsearch" placeholder="Enter drug name...">
+            </div>
+            <div>
+                <div class="search-gen search-name"> General Search </div>
+                <input class="search-gen search-input" name="gsearch" placeholder="Enter keyword...">
+            </div>
+        </div>
+        <div class="side-refresh">
+            <button onclick="run()"> Refresh Results </button>
+        </div>
+    </nav>
+    	
+    <main>
+        <div class="table-container"> 
+            <table>
+                <thead>
+                    <tr>
+                        <th class="w0 basic"> No </th>
+                        <th class="w1 basic"> Testing</th>
+                        <th class="w1 pharmc"> Testing </th>
+                        <th class="w2 basic"> Testing</th>
+                        <th class="w3 pharmc"> Testing</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

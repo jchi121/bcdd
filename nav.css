@@ -1,0 +1,115 @@
+/* Layout */
+nav {
+    grid-column: 1;
+
+	display: flex;
+    flex-direction: column;
+    padding: 0px;
+
+    border-right: 2px solid var(--config-border-color);
+    background-image: linear-gradient(to bottom, #CAD5E2, #CAD5E2);
+
+    font-family: "Roboto Slab", system-ui, sans-serif;
+    font-size: 1rem;
+    color: var(--config-text-color);
+
+    position: relative;
+}
+
+nav * {
+    outline: 1px dotted red;
+}
+
+nav > div {
+    padding: 10px;
+}
+
+/* Name */
+.side-name {
+    border-bottom: 1px solid var(--config-border-color);
+}
+
+.name-projname {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.name-ver {
+    font-size: 0.75em;
+}
+
+/* Search Bar */
+.side-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.side-search > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.search-name {
+	text-align: left;
+    font-family: "Roboto", sans-serif;
+    font-size: 1em;
+}
+    
+.search-input {
+    width: 100%;
+    background-color: var(--config-bg-color);
+    padding: 5px 10px;
+
+    border: 2px solid #99A1AF;
+    border-radius: 4px;
+
+    color: var(--config-text-color);
+    font-weight: bold;
+}
+
+.search-input:hover {
+    background: var(--config-bg-color-darker);
+}
+
+.search-input:not(:placeholder-shown) {
+    background: var(--config-search-highlight-color);
+}
+
+.search-input::placeholder{
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Refresh Button */
+.side-refresh {
+    display: flex;
+    justify-content: center;
+}
+
+.side-refresh > button {
+    border: 2px solid #99A1AF;
+    border-radius: 4px;
+
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    color: var(--config-text-color);
+}
+
+
+/* Hide Sidebar Button */
+nav::after{
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+
+    background: #E2E8F0;
+    border: 1px solid #90A1B9;
+
+    top: 20px;
+    right: -5px;
+
+    display: none;
+}

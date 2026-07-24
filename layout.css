@@ -1,0 +1,51 @@
+body {
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+    
+.layout {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 200px minmax(0px, 1fr);
+  background-color: #E2E8F0;
+}
+
+:root {
+  --config-text-color: #45556C;
+  --config-border-color: #62748E;
+
+  --config-search-highlight-color: #FFFBEB;
+
+  --config-bg-color: #F1F5F9;
+  --config-bg-color-darker: #E2E8F0;
+
+  --table-border-color: #62748E;
+
+  --table-cell-basic-header-color: #CAD5E2; /* 4th, Slate */
+  --table-cell-basic-cell-color-darker: #E2E8F0; /* 3rd */
+  --table-cell-basic-cell-color-lighter: #F1F5F9; /* 2nd */
+
+  --table-cell-pharmc-header-color: #FFB86A; /* 4th, Orange */
+  --table-cell-pharmc-cell-color-darker: #FFD6A7;
+  --table-cell-pharmc-cell-color-lighter: #FFEDD4;
+
+  --table-cell-therap-header-color: #7BF1A8; /* 4th, Emerald */
+  --table-cell-therap-cell-color-darker: #B9F8CF;
+  --table-cell-therap-cell-color-lighter: #DCFCE7;
+
+  --table-cell-practuse-header-color: #74D4FF; /* 4th, Sky */
+  --table-cell-practuse-cell-color-darker: #B8E6FE;
+  --table-cell-practuse-cell-color-lighter: #DFF2FE;
+
+  --table-cell-practsafe-header-color: #8EC5FF; /* 4th, Blue */
+  --table-cell-practsafe-cell-color-darker: #BEDBFF;
+  --table-cell-practsafe-cell-color-lighter: #DBEAFE;
+
+  --table-cell-pk-header-color: #FEE685; /* 3rd, Amber */
+  --table-cell-pk-cell-color-darker: #FEF3C6;
+  --table-cell-pk-cell-color-lighter: #FFFBEB; 
+}
