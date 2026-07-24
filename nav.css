@@ -17,7 +17,7 @@ nav {
 }
 
 nav * {
-    outline: 1px dotted red;
+    outline: 0px dotted red;
 }
 
 nav > div {
@@ -96,7 +96,6 @@ nav > div {
     font-weight: bold;
     color: var(--config-text-color);
 }
-
 
 /* Hide Sidebar Button */
 nav::after{

@@ -6,6 +6,7 @@ const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/value
 
 const HTML_thead = document.querySelector("thead");
 const HTML_tbody = document.querySelector("tbody");
+const HTML_disclaimer = document.querySelector(".disclaimer");
 const HTML_searchDrug = document.querySelector(".search-drug.search-input");
 const HTML_searchGen = document.querySelector(".search-gen.search-input");
 
@@ -13,6 +14,7 @@ const HTML_searchGen = document.querySelector(".search-gen.search-input");
 function updateTable(data) {
     HTML_thead.innerHTML = "";
     HTML_tbody.innerHTML = "";
+    HTML_disclaimer.style.display = "none";
     let realIndex = 0;
 
     data.forEach(addRow);
@@ -94,3 +96,11 @@ function run(){
 // HTML Events
 HTML_searchDrug.addEventListener('input', (event) => {run()});
 HTML_searchGen.addEventListener('input', (event) => {run()});
+
+let firstRun = false;
+document.addEventListener("keydown", function (event) {
+    if (!firstRun) {
+        run();
+        firstRun = true;
+    }
+});

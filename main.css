@@ -127,6 +127,8 @@ th:nth-child(n+3)::after{
     border: 1px solid #90A1B9;
     border-radius: 5px;
     background: #E2E8F0;
+
+    display: none;
 }
 
 th:nth-child(n+3) {
@@ -239,7 +241,7 @@ td:hover, td:hover td:nth-child(-n+2) {
 	background: #FCE5AC !important;
 }
 
-/* Responsive Web Design */
+/* Responsive Web Design 
 @media (max-width: 500px) {
 	nav {
         display: none;
@@ -249,6 +251,7 @@ td:hover, td:hover td:nth-child(-n+2) {
         grid-column: 1 / span 2;
     }
 }
+*/
 
 /* Text Styling */ 
 .textFound {
@@ -257,4 +260,19 @@ td:hover, td:hover td:nth-child(-n+2) {
 
 td.drug-no {
     font-family: "Ubunto Mono", monospace;
+}
+
+/* Disclaimer */
+.disclaimer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    color: white;
+    text-align: center;
+    font-family: "Ubuntu Mono", monospace;
+    
+    background: var(--table-border-color);
 }
