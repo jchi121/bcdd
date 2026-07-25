@@ -1,4 +1,4 @@
-# BCDD (Brevi Capita Dealbabimusve Decalvabimur)
+# BCDD (Brevi Candescemusque Decalvabimurque Deperibimus)
 
-Mini project.  
+Mini-project.  
 NOT professionally made in any shape or form. VERY amateurish.

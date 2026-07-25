@@ -11,17 +11,19 @@ body {
   display: grid;
   height: 100vh;
   grid-template-columns: 200px minmax(0px, 1fr);
-  background-color: #E2E8F0;
+  background-color: var(--bg-color);
 }
 
 :root {
+  --bg-color-lighter: #F1F5F9;
+  --bg-color: #E2E8F0;
+  --bg-color-darker: #CAD5E2;
+  --bg-color-darker2: #90A1B9;
+
   --config-text-color: #45556C;
   --config-border-color: #62748E;
 
   --config-search-highlight-color: #FFFBEB;
-
-  --config-bg-color: #F1F5F9;
-  --config-bg-color-darker: #E2E8F0;
 
   --table-border-color: #62748E;
 

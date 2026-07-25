@@ -59,7 +59,7 @@ nav > div {
     
 .search-input {
     width: 100%;
-    background-color: var(--config-bg-color);
+    background-color: var(--bg-color-lighter);
     padding: 5px 10px;
 
     border: 2px solid #99A1AF;
@@ -70,7 +70,7 @@ nav > div {
 }
 
 .search-input:hover {
-    background: var(--config-bg-color-darker);
+    background: var(--bg-color);
 }
 
 .search-input:not(:placeholder-shown) {
