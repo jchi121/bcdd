@@ -4,8 +4,8 @@ const sheetId = "1bh0Jr6vpKCfaO8c30WHx2nat-NidhI7qNJ963TFgSpY";
 const sheetRange = encodeURIComponent("Drugs!A:AB");
 const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetRange}?key=${sheetAPIKey}`;
 
-const HTML_thead = document.querySelector("thead");
-const HTML_tbody = document.querySelector("tbody");
+const HTML_thead = document.querySelector(".main-table thead");
+const HTML_tbody = document.querySelector(".main-table tbody");
 const HTML_intro = document.querySelector(".intro");
 const HTML_searchDrug = document.querySelector(".search-drug.search-input");
 const HTML_searchGen = document.querySelector(".search-gen.search-input");

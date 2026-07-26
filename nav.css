@@ -88,13 +88,18 @@ nav > div {
     justify-content: center;
 }
 
-.side-refresh > button {
+.side-refresh button {
     border: 2px solid #99A1AF;
     border-radius: 4px;
+    background: var(--bg-color-lighter);
 
     font-family: "Roboto", sans-serif;
     font-weight: bold;
     color: var(--config-text-color);
+}
+
+.side-refresh button:hover {
+    background: var(--bg-color);
 }
 
 /* Hide Sidebar Button */
