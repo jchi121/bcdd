@@ -99,11 +99,11 @@ main {
     border-bottom: 2px solid var(--table-border-color);
 }
 
-.main-table td:nth-child(2), th:nth-child(2){
+.main-table td:nth-child(2), .main-table th:nth-child(2){
     border-right: 2px solid var(--table-border-color);
 }
 
-.main-table td:nth-child(2)::after, th:nth-child(2)::after {
+.main-table td:nth-child(2)::after, .main-table th:nth-child(2)::after {
     content: "";
     position: absolute;
     top: 0;
@@ -233,11 +233,11 @@ tr:nth-child(even) td.pk {
     background: var(--table-cell-pk-cell-color-darker);
 }
 
-tr:hover, tr:hover td:nth-child(-n+2) {
+.main-table tr:hover, tr:hover td:nth-child(-n+2) {
 	background: #FAEDCA !important;
 }
     
-td:hover, td:hover td:nth-child(-n+2) {
+.main-table td:hover, td:hover td:nth-child(-n+2) {
 	background: #FCE5AC !important;
 }
 
@@ -251,7 +251,7 @@ td.drug-no {
 }
 
 /* Mobile Interface  */
-@media (max-width: 500px) {
+@media (max-width: 700px) {
 	nav {
         grid-row: 1;
         grid-column: 1 / span 2;
