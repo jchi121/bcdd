@@ -19,7 +19,7 @@ main {
     border-spacing: 0px;
     width: max-content;
 
-    font-size: 15px;
+    font-size: 1rem;
     text-align: center;
     }
 
@@ -29,7 +29,7 @@ main {
 
     font-family: "Lexend", sans-serif;
     font-weight: 500;
-    font-size: 1.15em;
+    font-size: 1.15rem;
 }
 
 .main-table td {
@@ -261,4 +261,38 @@ td.drug-no {
     main {
         grid-column: 1 / span 2;
     }
+
+    html {
+        font-size: 8px;
+    }
+
+    .main-table td:nth-child(2), th:nth-child(2) {
+        position: sticky;
+        left: 30px;
+    }
+
+    .main-table .w0 {
+        min-width: 30px;
+    }
+
+    .main-table .w1 {
+        min-width: 75px;
+        max-width: 125px;
+    }
+
+    .main-table .w1f {
+        min-width: 100px;
+        max-width: 100px;
+    }
+
+    .main-table .w2 {
+        min-width: 125px;
+        max-width: 175px;
+    }
+
+    .main-table .w3{
+        min-width: 175px;
+        max-width: 225px;
+    }
+
 }

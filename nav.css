@@ -78,6 +78,7 @@ nav > div {
 }
 
 .search-input::placeholder{
+    font-size: 1rem;
     font-style: italic;
     font-weight: 400;
 }

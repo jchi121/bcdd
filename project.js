@@ -104,3 +104,5 @@ document.addEventListener("keydown", function (event) {
         firstRun = true;
     }
 });
+
+run();
