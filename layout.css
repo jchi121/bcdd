@@ -1,6 +1,6 @@
 html {
   font-size: 16px;
-  background: var(--config-border-color);
+  background: var(--border-color);
 }
 
 body {
@@ -16,21 +16,22 @@ body {
   display: grid;
   height: 100vh;
   grid-template-columns: 200px minmax(0px, 1fr);
-  background-color: var(--bg-color);
+  background: var(--bg-color-lighter2);
 }
 
 :root {
-  --bg-color-lighter: #F1F5F9;
-  --bg-color: #E2E8F0;
-  --bg-color-darker: #CAD5E2;
-  --bg-color-darker2: #90A1B9;
+  --bg-color-lighter2: #EEF1F7;
+  --bg-color-lighter: #DCE3EF;
+  --bg-color: #B9C6DF;
+  --bg-color-darker: #96AACF;
+  --bg-color-darker2: #738EBF;
 
-  --config-text-color: #45556C;
-  --config-border-color: #62748E;
+  --bg-text-color: #161B22;
+
+  --border-color: #2F4265;
+  --border-text-color: #FFFFFF;
 
   --config-search-highlight-color: #FFFBEB;
-
-  --table-border-color: #62748E;
 
   --table-cell-basic-header-color: #CAD5E2; /* 4th, Slate */
   --table-cell-basic-cell-color-darker: #E2E8F0; /* 3rd */

@@ -1,74 +1,59 @@
 // Fixed Data
-const columnClasses = [
-    ["w0", "basic", "drug-no"],
-    ["w1f", "basic", "no-scroll"],
-    ["w1", "basic"],
+const headerColumns = [
+    ["No.", ["w0", "basic", "drug-no"]],
+    ["Generic Name", ["w1f", "basic", "no-scroll"]],
+    ["Brand Name", ["w1", "basic"]],
 
-    ["w1", "pharmc"],
-    ["w2", "pharmc"],
-    ["w1", "pharmc"],
-    ["w1", "pharmc"],
+    ["Pharmacological Class", ["w1", "pharmc"]],
+    ["", ["w1", "pharmc"]],
+    ["", ["w1", "pharmc"]],
+    ["Add. Pharm. Class", ["w1", "pharmc"]],
     
-    ["w3", "therap"],
-    ["w3", "therap"],
-    ["w1", "therap"],
+    ["Therapeutic Class", ["w3", "therap"]],
+    ["Indications", ["w3", "therap"]],
+    ["Affected Systems", ["w1", "therap"]],
 
-    ["w2", "practuse"],
-    ["w2", "practuse"],
-    ["w2", "practuse"],
-    ["w2", "practuse"],
+    ["Route of Administration", ["w2", "practuse"]],
+    ["Dosage", ["w2", "practuse"]],
+    ["Counseling Points", ["w2", "practuse"]],
+    ["Legal Classification", ["w2", "practuse"]],
 
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
-    ["w2", "practsafe"],
+    ["Adverse Effects", ["w2", "practsafe"]],
+    ["", ["w2", "practsafe"]],
+    ["Contraindications", ["w2", "practsafe"]],
+    ["Precautions", ["w2", "practsafe"]],
+    ["Drug Interactions", ["w2", "practsafe"]],
+    ["Food Interactions", ["w2", "practsafe"]],
+    ["Special Populations", ["w2", "practsafe"]],
+    ["Monitoring", ["w2", "practsafe"]],
 
-    ["w1", "pk"],
-    ["w1", "pk"],
-    ["w1", "pk"],
-    ["w1", "pk"],
+    ["Absorption", ["w1", "pk"]],
+    ["Distribution", ["w1", "pk"]],
+    ["Metabolism", ["w1", "pk"]],
+    ["Elimination", ["w1", "pk"]],
 
-    ["w1", "basic"], 
-    ["w1", "basic"],
-    ["w1", "basic"],
+    ["Notes", ["w1", "basic"]], 
+    ["Tags", ["w1", "basic"]],
+    ["Encounters", ["w1", "basic"]],
 ];
 
-/* Original Sheet Column Indices
-0   = Gen Name
-1   = Brand Name
+const headerNames = [];
+headerColumns.forEach((value) => {
+    headerNames.push(value[0]);
+});
+// (Replace with Map method?)
 
-2   = Pharmacological Class 1
-3   = Pharmacological Class 2
-4   = Add. Pharmacological Class
+const dataSheetAPIKey = "AIzaSyDFybl2Kxp4RMuCiT1fkTYJUImPfgK8s7g"; 
+const dataSheetId = "1bh0Jr6vpKCfaO8c30WHx2nat-NidhI7qNJ963TFgSpY";
+const dataSheetRange = encodeURIComponent("Drugs!A:AB");
+const dataSheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${dataSheetId}/values/${dataSheetRange}?key=${dataSheetAPIKey}`;
 
-5   = Therapuetic Class
-6   = Indications
-7   = Affected Systems
-
-8   = Route of Administration
-9   = Dosage
-10  = Counseling Points
-11  = Legal Classification
-
-12  = ADR (Common)
-13  = ADR (Serious) 
-14  = Contraindications
-15  = Precautions
-16  = Drug Interactions
-17  = Food Interactions
-18  = Special Populations
-19  = Monitoring
-
-20  = Absorption
-21  = Distribution
-22  = Metabolism
-23  = Elimination
-
-24  = Notes
-25  = Tags
-26  = Course Encounter
-*/
+const HTML = {
+    thead: document.querySelector(".main-table thead"),
+    tbody: document.querySelector(".main-table tbody"),
+    intro: document.querySelector(".intro"),
+    searchDrug: document.querySelector(".search-drug.search-input"),
+    searchGen: document.querySelector(".search-gen.search-input"),
+    visiBox: document.querySelector(".visibility-box"),
+    runButton: document.querySelector(".side-refresh button"),
+};
