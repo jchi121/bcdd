@@ -1,5 +1,6 @@
 html {
   font-size: 16px;
+  background: var(--config-border-color);
 }
 
 body {
@@ -54,4 +55,7 @@ body {
   --table-cell-pk-header-color: #FEE685; /* 3rd, Amber */
   --table-cell-pk-cell-color-darker: #FEF3C6;
   --table-cell-pk-cell-color-lighter: #FFFBEB; 
+
+  --table-cell-highlight-row-color: #FFF085;
+  --table-cell-highlight-cell-color: #FFDF20;
 }

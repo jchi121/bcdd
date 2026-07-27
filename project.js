@@ -39,11 +39,11 @@ function updateTable(data) {
             let origIndex = index;
             if (origIndex === 1 && searchDrugText.length > 1) {
                 value = value.replaceAll(regex_searchDrugText, match => 
-                `<span class="textFound">${match}</span>`);
+                `<span class="text-found">${match}</span>`);
             }
             if (origIndex !== 0 && searchGenText.length > 1) {
                 value = value.replaceAll(regex_searchGenText, match => 
-                `<span class="textFound">${match}</span>`);
+                `<span class="text-found">${match}</span>`);
             }
 
             const cell = document.createElement(type); 
@@ -104,5 +104,3 @@ document.addEventListener("keydown", function (event) {
         firstRun = true;
     }
 });
-
-run();

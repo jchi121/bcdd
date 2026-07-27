@@ -38,15 +38,21 @@ family=Lexend:wght@100..900
         	<div class="name-projname"> BCDD </div> 
             <div class="name-ver"> Experimental Version 0.0.1 </div>
       	</div>
-        <div class="side-search">
-            <div>
-                <div class="search-drug search-name"> Drug Search </div>
-                <input class="search-drug search-input" name="dsearch" placeholder="Enter drug name...">
+        <div class="side-item">
+            <div class="side-item-name"> SEARCH </div>
+            <div class="side-search">
+                <div>
+                    <div class="search-drug search-name"> Drug Search </div>
+                    <input class="search-drug search-input" name="dsearch" placeholder="Enter drug name...">
+                </div>
+                <div>
+                    <div class="search-gen search-name"> General Search </div>
+                    <input class="search-gen search-input" name="gsearch" placeholder="Enter keyword...">
+                </div>
             </div>
-            <div>
-                <div class="search-gen search-name"> General Search </div>
-                <input class="search-gen search-input" name="gsearch" placeholder="Enter keyword...">
-            </div>
+        </div>
+        <div class="side-item"> 
+            <div class="side-item-name"> VISBILITY </div>
         </div>
         <div class="side-refresh">
             <button onclick="run()"> Run / Refresh Results </button>
@@ -61,38 +67,127 @@ family=Lexend:wght@100..900
                 <div class="intro-subcontainer">
                     <div class="intro-title">  About This Project </div>
                     <div class="intro-content">
-                        <p> This is an experimental version of <span class="text-BCDD">BCDD</span>, 
+                        <p> This is an experimental version of <span class="text-BCDD text-latin tooltip">BCDD</span>, 
                         a (poorly-developed) database & navigator tool which aims to record
                         information about drugs encountered in our studies and careers. </p>
                         <p> This is only a personal project and is for personal use only
                             (Though I'm not sure if it'll be of any use realistically). </p>
-                        <p> Please also be aware of the fact that I am not a qualifed programmer/developer at all.
-                            I doubt any of this is efficiently or properly coded. 
-                            (As I tried to limit the amount of vibe-coding) </p>
+                        <p> Please also be aware of the fact that I am <span class="text-emphasis"> NOT </span> a qualifed programmer/developer at all.
+                            I doubt any of this is efficiently or properly coded 
+                            (As I tried to limit the amount of vibe-coding). </p>
 
                     </div>
                 </div>
                 <div class="intro-subcontainer">
                     <div class="intro-title"> Current Project Progress </div>
-                    <div class="intro-content"> 
+                    <div class="intro-content content-prog"> 
                         <p> Very incomplete. Few site features are implemented. Data is at very incomplete state. </p>
-                        <div class="intro-progress-table"> 
-                            <table>
-                                <tr> 
-                                    <th> Aspect </th>
-                                    <th> Done </th>
-                                    <th> WIP </th>
-                                </tr>
-                                <tr> 
-                                    <th> Navigator </th>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                                    <th> Database </th>
-                                    <td> </td>
-                                    <td> </td>
-                            </table>
-                        </div>
+                        <div class="intro-prog">
+                            <div class="intro-prog-table prog-table-data"> 
+                                <table>
+                                    <tr> 
+                                        <th> Aspect </th>
+                                        <th> Item </th>
+                                        <th> State </th>
+                                    </tr>
+                                    <tr> 
+                                        <th rowspan="0"> Database (Drug Info Entry) </th>
+                                        <td> Common </td>
+                                        <td class="prog-state-red"> Unentered </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Respiratory I </td>
+                                        <td class="prog-state-yellow-2"> Entered*, Full Progress 0% </td>                                    
+                                    </tr>
+                                    <tr>
+                                        <td> Respiratory II </td>
+                                        <td class="prog-state-yellow-2"> Entered*, Full Progress 0% </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gastrointestinal I </td>
+                                        <td class="prog-state-yellow-2"> Entered*, Full Progress 0% </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gastrointestinal II </td>
+                                        <td class="prog-state-yellow-2"> Entered*, Full Progress 0% </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Cardiovascular I </td>
+                                        <td class="prog-state-yellow-2"> Entered, Full Progress 0% </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Cardiovascular II </td>
+                                        <td class="prog-state-yellow-1"> Unentered, Full Progress 0% </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Miscellaneous I </td>
+                                        <td class="prog-state-red"> Unentered, Full Progress 0% </td>
+                                    </tr>       
+                                    <tr> 
+                                        <td> Miscellaneous II </td>
+                                        <td class="prog-state-red"> Unentered, Full Progress 0% </td>
+                                    </tr>                                                         
+                                </table>
+                            </div>
+                            <div class="intro-prog-table prog-table-data"> 
+                                <table>
+                                    <tr> 
+                                        <th> Aspect </th>
+                                        <th> Item </th>
+                                        <th> State </th>
+                                    </tr>
+                                    <tr> 
+                                        <th rowspan="0"> Navigator Tool </th>
+                                        <td> Data Display </td>
+                                        <td class="prog-state-green"> Done (Can be refined) </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Search Functionality </td>
+                                        <td class="prog-state-green"> Done </td>                                    
+                                    </tr>     
+                                    <tr>
+                                        <td> Visibility Toggle Functionality </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>
+                                    <tr>
+                                        <td> Filter Functionality </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>                                                                     
+                                    <tr>
+                                        <td> Sort Functionality </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>  
+                                    <tr>
+                                        <td> Reorder Functionality </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>   
+                                    <tr>
+                                        <td> Tooltip Functionality </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>  
+                                    <tr>
+                                        <td> Isolated Information Area </td>
+                                        <td class="prog-state-red"> Not Started  </td>                                    
+                                    </tr>  
+                                    <tr>
+                                        <td> Introduction Screen </td>
+                                        <td class="prog-state-green"> Done (Can be refined) </td>                                    
+                                    </tr>  
+                                    <tr>
+                                        <td> Mobile Interface </td>
+                                        <td class="prog-state-yellow-1"> WIP </td>                                    
+                                    </tr>       
+                                    <tr>
+                                        <td> Header Buttons </td>
+                                        <td class="prog-state-red"> Not Started </td>                                    
+                                    </tr>
+                                    <tr>
+                                        <td> Guide / Tutorial </td>
+                                        <td class="prog-state-red"> Not Started </td>
+                                    </tr>
+                                </table> 
+                            </div>
+                        </div>                           
                     </div>
                 </div>
             </div>

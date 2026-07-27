@@ -37,7 +37,7 @@
 .intro-subcontainer {
     display: flex;
 
-    width: auto;
+    width: 95%;
 
     border-radius: 5px;
     box-shadow: 1px 1px 5px var(--bg-color-darker);
@@ -75,11 +75,64 @@
     background: #90A1B9;
 }
 
-.intro-content > p {
+.intro-content > :is(p, div) {
     margin: 7px;
 }
 
-.intro-progress-table {
+.intro-prog {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.intro-prog-table {
+    border: 2px solid var(--bg-color);
+    background: var(--bg-color-lighter);
+    border-radius: 5px;
+    overflow: hidden;
+
+    font-size: clamp(5px, 1vw, 0.9rem);
+}
+
+.intro-prog-table table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.intro-prog-table :is(th, td) {
+    border: 1px solid var(--bg-color);
+    background: var(--bg-color-lighter);
+
+    padding: 5px;
+
+    color: var(--bg-color-darker2);
+}
+
+.intro-prog-table th {
+    text-align: center;
+}
+
+.intro-prog-table th:nth-child(1) {
+    width: 20px;
+}
+
+.intro-prog-table th:nth-child(n+2) {
+    width: clamp(10px, 15vw, 500px);
+}
+
+.intro-prog-table .prog-state-red {
+    color: #FFA2A2;
+}
+
+.intro-prog-table .prog-state-yellow-1 {
+    color: #FFD230;
+}
+
+.intro-prog-table .prog-state-yellow-2 {
+    color: #FFB86A;
+}
+
+.intro-prog-table .prog-state-green {
+    color: #9AE630;
 }

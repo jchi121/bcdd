@@ -21,7 +21,7 @@ main {
 
     font-size: 1rem;
     text-align: center;
-    }
+}
 
 .main-table th {
     height: 50px;
@@ -64,17 +64,17 @@ main {
     z-index: 1;
 }
 
-.main-table td:nth-child(1), th:nth-child(1) {
+.main-table :is(td:nth-child(1),th:nth-child(1)) {
     position: sticky;
     left: 0px;
 }
 
-.main-table td:nth-child(2), th:nth-child(2) {
+.main-table :is(td:nth-child(2), th:nth-child(2)) {
     position: sticky;
     left: 50px;
 }
 
-.main-table th:nth-child(1), th:nth-child(2){
+.main-table :is(th:nth-child(1),th:nth-child(2)) {
     z-index: 2;
 }
 
@@ -127,8 +127,6 @@ main {
     border: 1px solid #90A1B9;
     border-radius: 5px;
     background: #E2E8F0;
-
-    display: none;
 }
 
 .main-table th:nth-child(n+3) {
@@ -161,93 +159,100 @@ main {
 }
 
 /* Table Color Styling */
-th.basic {
-    background: var(--table-cell-basic-header-color);
+.basic {
+    --header: var(--table-cell-basic-header-color);
+    --cell-lighter: var(--table-cell-basic-cell-color-lighter);
+    --cell-darker: var(--table-cell-basic-cell-color-darker);
 }
 
-th.pharmc {
-    background: var(--table-cell-pharmc-header-color);
+.pharmc {
+    --header: var(--table-cell-pharmc-header-color);
+    --cell-lighter: var(--table-cell-pharmc-cell-color-lighter);
+    --cell-darker: var(--table-cell-pharmc-cell-color-darker);
 }
 
-th.therap {
-    background: var(--table-cell-therap-header-color);
+.therap {
+    --header: var(--table-cell-therap-header-color);
+    --cell-lighter: var(--table-cell-therap-cell-color-lighter);
+    --cell-darker: var(--table-cell-therap-cell-color-darker);
 }
 
-th.practuse {
-    background: var(--table-cell-practuse-header-color);
+.practuse {
+    --header: var(--table-cell-practuse-header-color);
+    --cell-lighter: var(--table-cell-practuse-cell-color-lighter);
+    --cell-darker: var(--table-cell-practuse-cell-color-darker);
 }
 
-th.practsafe {
-    background: var(--table-cell-practsafe-header-color);
+.practsafe {
+    --header: var(--table-cell-practsafe-header-color);
+    --cell-lighter: var(--table-cell-practsafe-cell-color-lighter);
+    --cell-darker: var(--table-cell-practsafe-cell-color-darker);
 }
 
-th.pk {
-    background: var(--table-cell-pk-header-color);
+.pk {
+    --header: var(--table-cell-pk-header-color);
+    --cell-lighter: var(--table-cell-pk-cell-color-lighter);
+    --cell-darker: var(--table-cell-pk-cell-color-darker);
 }
 
-tr:nth-child(odd) td.basic {
-    background: var(--table-cell-basic-cell-color-lighter);
+.main-table th {
+    background: var(--header)
 }
 
-tr:nth-child(even) td.basic {
-    background: var(--table-cell-basic-cell-color-darker);
+tr:nth-child(odd) td {
+    background: var(--cell-lighter);
 }
 
-tr:nth-child(odd) td.pharmc {
-    background: var(--table-cell-pharmc-cell-color-lighter);
+tr:nth-child(even) td {
+    background: var(--cell-darker);
 }
 
-tr:nth-child(even) td.pharmc {
-    background: var(--table-cell-pharmc-cell-color-darker);
+.main-table tr:hover td {
+	background: var(--table-cell-highlight-row-color);
 }
 
-tr:nth-child(odd) td.therap {
-    background: var(--table-cell-therap-cell-color-lighter);
-}
-
-tr:nth-child(even) td.therap {
-    background: var(--table-cell-therap-cell-color-darker);
-}
-
-tr:nth-child(odd) td.practuse {
-    background: var(--table-cell-practuse-cell-color-lighter);
-}
-
-tr:nth-child(even) td.practuse {
-    background: var(--table-cell-practuse-cell-color-darker);
-}
-
-tr:nth-child(odd) td.practsafe {
-    background: var(--table-cell-practsafe-cell-color-lighter);
-}
-
-tr:nth-child(even) td.practsafe {
-    background: var(--table-cell-practsafe-cell-color-darker);
-}
-
-tr:nth-child(odd) td.pk {
-    background: var(--table-cell-pk-cell-color-lighter);
-}
-
-tr:nth-child(even) td.pk {
-    background: var(--table-cell-pk-cell-color-darker);
-}
-
-.main-table tr:hover, tr:hover td:nth-child(-n+2) {
-	background: #FAEDCA !important;
-}
-    
-.main-table td:hover, td:hover td:nth-child(-n+2) {
-	background: #FCE5AC !important;
+.main-table tr:hover td:hover {
+    background: var(--table-cell-highlight-cell-color);
 }
 
 /* Text Styling */ 
-.textFound {
+.text-found {
     font-weight: bold;
 }
 
 td.drug-no {
     font-family: "Ubunto Mono", monospace;
+}
+
+.text-emphasis {
+    font-weight: bold;
+    color: #C11007;
+}
+
+/* Tooltips */
+.tooltip {
+    text-decoration: underline dashed;
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding: 5px;
+
+    background: black;
+    border-radius: 2px;
+    opacity: 0.9;
+}
+
+.tooltip.text-BCDD:hover::after {
+    content: "Brevi Canescemusque Decalvabimurque Deperibimus";
+    font-family:'Times New Roman', Times, serif;
+    font-style: italic;
 }
 
 /* Mobile Interface  */

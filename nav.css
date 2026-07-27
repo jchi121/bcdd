@@ -22,13 +22,27 @@ nav * {
 
 nav > div {
     padding: 10px;
+    border-bottom: 2px solid var(--config-border-color)
+}
+
+.side-item {
+    display: flex;
+    padding: 0px;
+}
+
+.side-item-name {
+    display: flex;
+    justify-content: center;
+    background: var(--config-border-color);
+
+    padding: 10px 0;
+    color: var(--bg-color);
+    writing-mode: vertical-lr;
+
+    transform: rotate(180deg);
 }
 
 /* Name */
-.side-name {
-    border-bottom: 1px solid var(--config-border-color);
-}
-
 .name-projname {
     font-size: 2em;
     font-weight: 700;
@@ -43,6 +57,7 @@ nav > div {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 10px;
 }
 
 .side-search > div {
