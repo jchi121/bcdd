@@ -57,5 +57,8 @@ const HTML = {
     visiBox: document.querySelector(".visibility-box"),
     visiBoxName: [],
     visiBoxButton: [],
+    visiDefaultButton: document.querySelector(".visibility-button"),
     runButton: document.querySelector(".side-refresh button"),
 };
+
+const baseConfig = structuredClone(config);

@@ -196,7 +196,7 @@ nav * {
     z-index: 1;
 }
 
-.side-refresh button {
+.layout button {
     border: 2px solid #99A1AF;
     border-radius: 4px;
     background: var(--bg-color-lighter);
@@ -206,22 +206,7 @@ nav * {
     color: var(--bg-text-color);
 }
 
-.side-refresh button:hover {
+.layout button:hover {
     background: var(--bg-color);
 }
 
-/* Hide Sidebar Button */
-nav::after{
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-
-    background: #E2E8F0;
-    border: 1px solid #90A1B9;
-
-    top: 20px;
-    right: -5px;
-
-    display: none;
-}

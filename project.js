@@ -1,11 +1,11 @@
 // Data Display
-function updateTable(data) {
+function updateTable() {
     HTML.thead.innerHTML = "";
     HTML.tbody.innerHTML = "";
     HTML.intro.style.display = "none";
     let realIndex = 0;
 
-    data.forEach(addRow);
+    dataSheetData.forEach(addRow);
     function addRow(row, index) {
         const tr = document.createElement("tr");
         const searchDrugText = HTML.searchDrug.value;
@@ -63,7 +63,8 @@ function updateTable(data) {
     }
 }
 
-function runUpdateTable(){
+let dataSheetData = null;
+function updateData(){
     fetch(dataSheetUrl)
         .then(response => {
             console.log("HTTP Status:", response.status);
@@ -84,9 +85,8 @@ function runUpdateTable(){
                 return;
             }
 
-            updateTable(data.values);
-            console.log(data);
-
+            dataSheetData = data.values;
+            updateTable();
         })
         
         .catch(error => {
@@ -95,8 +95,10 @@ function runUpdateTable(){
 }
 
 // Search
-HTML.searchDrug.addEventListener("input", (event) => {runUpdateTable()});
-HTML.searchGen.addEventListener("input", (event) => {runUpdateTable()});
+HTML.searchDrug.addEventListener("input", (event) => {
+    if (dataSheetData) {updateTable()} else updateData()});
+HTML.searchGen.addEventListener("input", (event) => {
+    if (dataSheetData) {updateTable()} else updateData()});
 
 // Visibility & Order
 let realCount = 0;
@@ -128,26 +130,35 @@ headerNames.forEach((value, index) => {
 });
 
 HTML.visiBoxName.forEach((value, index) => {
-    HTML.visiBoxName[index].addEventListener("click", () => {
-        changeVisi(index);
-    })
+    HTML.visiBoxName[index].addEventListener("click", () => changeVisi(index))
 })
 
 function changeVisi(index) {
     if (index > 1) {
         config.enabledColumns[index] = !(config.enabledColumns[index]);
         HTML.visiBoxName[index].classList.toggle("disabled");
+        if (dataSheetData) updateTable();
     }
 }
 
+HTML.visiDefaultButton.addEventListener("click", () => {
+    config.enabledColumns = [...baseConfig.enabledColumns];
+    HTML.visiBoxName.forEach((value, index) => {
+        if (config.enabledColumns[index]) {
+            HTML.visiBoxName[index].classList.remove("disabled")
+        } else HTML.visiBoxName[index].classList.add("disabled")
+    })
+    if (dataSheetData) updateTable();
+})
+
 // Run Button
-HTML.runButton.addEventListener("click", () => {runUpdateTable()});
+HTML.runButton.addEventListener("click", () => {updateData()});
 
 // Intro
 let firstRun = false;
 document.addEventListener("keydown", (event) => {
     if (!firstRun) {
-        runUpdateTable();
+        updateData();
         firstRun = true;
     }
 });
