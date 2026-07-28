@@ -55,5 +55,7 @@ const HTML = {
     searchDrug: document.querySelector(".search-drug.search-input"),
     searchGen: document.querySelector(".search-gen.search-input"),
     visiBox: document.querySelector(".visibility-box"),
+    visiBoxName: [],
+    visiBoxButton: [],
     runButton: document.querySelector(".side-refresh button"),
 };

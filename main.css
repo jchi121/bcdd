@@ -1,13 +1,15 @@
 /* Main */
 main {
     grid-column: 2;
+    display: flex;
+
     padding: 10px;
     min-height: 0;
 }
 
 .table-container {
-    border: 2px solid var(--border-color);
-    height: 100%;
+    flex-shrink: 1;
+    
     overflow: auto;
     background: #E6F5FF;
     overscroll-behavior: none;

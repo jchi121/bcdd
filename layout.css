@@ -16,7 +16,7 @@ body {
   display: grid;
   height: 100vh;
   grid-template-columns: 200px minmax(0px, 1fr);
-  background: var(--bg-color-lighter2);
+  background: var(--border-color);
 }
 
 :root {
@@ -33,9 +33,9 @@ body {
 
   --config-search-highlight-color: #FFFBEB;
 
-  --table-cell-basic-header-color: #CAD5E2; /* 4th, Slate */
-  --table-cell-basic-cell-color-darker: #E2E8F0; /* 3rd */
-  --table-cell-basic-cell-color-lighter: #F1F5F9; /* 2nd */
+  --table-cell-basic-header-color: #B9C6DF; /* 4th, Slate */
+  --table-cell-basic-cell-color-darker: #DCE3EF; /* 3rd */
+  --table-cell-basic-cell-color-lighter: #EEF1F7; /* 2nd */
 
   --table-cell-pharmc-header-color: #FFB86A; /* 4th, Orange */
   --table-cell-pharmc-cell-color-darker: #FFD6A7;
