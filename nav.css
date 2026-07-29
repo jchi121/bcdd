@@ -82,14 +82,24 @@ nav * {
     font-size: 1em;
 }
 
-/* Config - Search */
 .item-content-a > div {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     gap: 5px;
 }
-    
+
+.config-box {
+    min-height: 50px;
+
+    background: var(--bg-color-lighter2);
+    border: 2px solid #99A1AF;
+    border-radius: 4px;
+
+    font-family: "Roboto", sans-serif;
+}
+
+/* Config: Search */ 
 .search-input {
     width: 100%;
     padding: 5px 10px;
@@ -116,33 +126,79 @@ nav * {
     font-weight: 400;
 }
 
-/* Config: Visibility & Order */
-.visibility-box {
-    max-height: 50vh;
-    overflow-y: scroll;
-
-    background: var(--bg-color-lighter);
-    border: 2px solid #99A1AF;
-    border-radius: 4px;
-
-    font-family: "Roboto", sans-serif;
+/* Config: Filter */
+.filter-add-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
 }
 
+.filter-add-box > * {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.filter-add-box input {
+    width: 100%;
+    z-index: 2;
+}
+
+.filter-add-box ul {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    overflow: scroll;
+
+    width: 100%;
+    max-height: 500%;
+    margin: 0;
+    padding: 0;
+
+    background: var(--bg-color-lighter);
+    border: 1px solid var(--bg-color-darker);
+    border-radius: 2px;
+
+    list-style: none;
+    z-index: 3;
+    display: none;
+}
+
+.filter-add-box ul li {
+    background: var(--cell-lighter);
+
+    font-size: 0.7rem;
+    padding: 2px;
+
+    cursor: pointer;
+    display: none;
+}
+
+.filter-add-box ul li:hover {
+    background: var(--cell-darker);
+}
+
+/* Config: Visibility & Order */
 .visibility-box::-webkit-scrollbar {
   display: none;
 }
 
 .visibility-box {
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
-}
+    max-height: 50vh;
+    overflow-y: scroll;
 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
 
 .visibility-box > div {
     position: relative;
     padding: 2px;
 
     font-size: 0.75rem;
+
+    cursor: pointer;
 }
 
 .visibility-box > div {

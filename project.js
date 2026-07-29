@@ -61,6 +61,10 @@ function updateTable() {
             HTML.tbody.appendChild(tr);
         }
     }
+
+    config.sortOrder.forEach((value) => {
+        sortTable(HTML.tbody, value[0], value[1])
+    }) 
 }
 
 let dataSheetData = null;
@@ -95,10 +99,60 @@ function updateData(){
 }
 
 // Search
-HTML.searchDrug.addEventListener("input", (event) => {
-    if (dataSheetData) {updateTable()} else updateData()});
-HTML.searchGen.addEventListener("input", (event) => {
-    if (dataSheetData) {updateTable()} else updateData()});
+HTML.searchDrug.addEventListener("input", () => {
+    if (dataSheetData) {updateTable()}
+});
+
+HTML.searchGen.addEventListener("input", () => {
+    if (dataSheetData) {updateTable()}
+});
+
+// Filter
+headerNames.forEach((value, index) => {
+    if (value === "") return;
+    if (!headerColumns[index][2]) return;
+
+    const headerChoice = document.createElement("li");
+    headerChoice.innerHTML = value;
+    headerChoice.classList.add(headerColumns[index][1][1]);
+
+    HTML.filterHeaderChoiceList.appendChild(headerChoice);
+    HTML.filterHeaderChoice[index] = headerChoice;
+});
+
+HTML.filterHeaderInput.addEventListener("focus", () => {
+    HTML.filterHeaderChoiceList.style.display = "block";
+});
+
+HTML.filterHeaderInput.addEventListener("blur", () => {
+    HTML.filterHeaderChoiceList.style.display = "none";
+});
+
+HTML.filterHeaderInput.addEventListener("input", (event) => {
+    const inputValue = event.target.value;
+    const regex_inputValue = new RegExp(inputValue, "gi");
+
+    HTML.filterHeaderChoice.forEach((value, index) => {
+        if (!headerNames[index].toLowerCase().includes(inputValue.toLowerCase())) {
+            value.style.display = "none";
+            return;
+        }
+
+        if (inputValue.length > 1) {
+            value.innerHTML = headerNames[index].replaceAll(regex_inputValue, match => 
+            `<span class="text-found">${match}</span>`);           
+        }
+
+        value.style.display = "block";
+    })
+});
+
+HTML.filterHeaderChoice.forEach((value, index) => {
+    value.addEventListener("mousedown", () => {
+        console.log(headerNames[index]);
+        HTML.filterHeaderInput.value = headerNames[index];
+    })
+});
 
 // Visibility & Order
 let realCount = 0;
@@ -130,7 +184,7 @@ headerNames.forEach((value, index) => {
 });
 
 HTML.visiBoxName.forEach((value, index) => {
-    HTML.visiBoxName[index].addEventListener("click", () => changeVisi(index))
+    value.addEventListener("click", () => changeVisi(index))
 })
 
 function changeVisi(index) {
@@ -151,14 +205,41 @@ HTML.visiDefaultButton.addEventListener("click", () => {
     if (dataSheetData) updateTable();
 })
 
+// Sort
+function sortTable(tbody, index, asc = true) {
+    if (index === 0) return;
+
+    const dirModifier = asc ? 1 : -1;
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const drugNoContent = rows.map(row => row.cells[0].innerHTML);
+
+    const sortedRows = rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[index].textContent.trim();
+        const cellB = rowB.cells[index].textContent.trim();
+ 
+        const isEmpty = (cellA === "") || (cellB === "");
+        if (isEmpty) {
+            return cellA === cellB ? 0 : (cellA === "" ? 1 : -1);
+        } else {
+            return cellA.localeCompare(cellB) * dirModifier;
+        }
+    });
+
+    sortedRows.forEach((row, index) => {
+        row.cells[0].innerHTML = drugNoContent[index];
+        tbody.appendChild(row);
+    });
+}
+
 // Run Button
 HTML.runButton.addEventListener("click", () => {updateData()});
 
 // Intro
-let firstRun = false;
+let firstRun = true;
 document.addEventListener("keydown", (event) => {
-    if (!firstRun) {
-        updateData();
-        firstRun = true;
-    }
+    if (!firstRun) return;
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    updateData();
+    firstRun = false;
 });

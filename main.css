@@ -9,7 +9,7 @@ main {
 
 .table-container {
     flex-shrink: 1;
-    
+
     overflow: auto;
     background: #E6F5FF;
     overscroll-behavior: none;
@@ -229,6 +229,10 @@ td.drug-no {
 .text-emphasis {
     font-weight: bold;
     color: #C11007;
+}
+
+.text-smaller {
+    font-size: 0.8rem;
 }
 
 /* Tooltips */
