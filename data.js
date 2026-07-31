@@ -163,7 +163,7 @@ const headerStyles = ["basic", "pharmc", "therap", "practuse", "practsafe", "pk"
 
 // (Replace with Map method?)
 
-const dataSheetAPIKey = "AIzaSyDFybl2Kxp4RMuCiT1fkTYJUImPfgK8s7g"; 
+const dataSheetAPIKey = ""; 
 const dataSheetId = "1bh0Jr6vpKCfaO8c30WHx2nat-NidhI7qNJ963TFgSpY";
 const dataSheetRange = encodeURIComponent("Drugs!A:AB");
 const dataSheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${dataSheetId}/values/${dataSheetRange}?key=${dataSheetAPIKey}`;
