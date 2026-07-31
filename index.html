@@ -59,14 +59,15 @@ family=Lexend:wght@100..900
                         <div class="config-box filter-add-box"> 
                             <div>
                                 <input class="filter-input filter-input-header" placeholder="Select header..."> </input>
-                                <ul class="filter-header-list">
-                                </ul>
+                                <ul class="filter-header-list"> </ul>
                             </div>
+                            <div> </div>
                             <div>
-                                <input class="filter-input filter-input-content" list="filter-content-choice" placeholder="Select filter content..."> </input> 
+                                <input class="filter-input filter-input-content" placeholder="Select filter..."> </input> 
+                                <ul class="filter-content-list"> </ul>
                             </div>
-                            <div> <button> Add </button> </div>
-                        </div>          
+                        </div>
+                        <div class="filter-add-button"> <button> Add Filter </button> </div>
                     </div>                    
                 </div>
             </div>
@@ -87,14 +88,14 @@ family=Lexend:wght@100..900
             </div>
         </div>
         <div class="side-refresh">
-            <button> Run / Refresh Results </button>
+            <button> Run Lookup </button>
         </div>
     </nav>
     	
     <main>
         <div class="table-container"> 
             <div class="intro">
-                <div class="intro-text"> Press any key or press "Run / Refresh Results" button to start. </div>
+                <div class="intro-text"> Press any key or press "Run Lookup" button to start. </div>
                 <h1> INTRODUCTION </h1>
                 <div class="intro-subcontainer">
                     <div class="intro-title">  About <br> This <br> Project </div>
@@ -146,7 +147,7 @@ family=Lexend:wght@100..900
                                     <tr>
                                         <td> Gastrointestinal II </td>
                                         <td class="prog-state-yellow-2"> Entered*, Full Progress 0% </td>
-                                    </tr>
+                                    </tr>                                    
                                     <tr>
                                         <td> Cardiovascular I </td>
                                         <td class="prog-state-yellow-2"> Entered, Full Progress 0% </td>
@@ -155,6 +156,10 @@ family=Lexend:wght@100..900
                                         <td> Cardiovascular II </td>
                                         <td class="prog-state-yellow-1"> Unentered, Full Progress 0% </td>
                                     </tr>
+                                    <tr>
+                                        <td> Cardiovascular III </td>
+                                        <td class="prog-state-red"> Unentered, Full Progress 0% </td>
+                                    </tr>                                    
                                     <tr>
                                         <td> Miscellaneous I </td>
                                         <td class="prog-state-red"> Unentered, Full Progress 0% </td>
@@ -187,11 +192,11 @@ family=Lexend:wght@100..900
                                     </tr>
                                     <tr>
                                         <td> Filter Functionality </td>
-                                        <td class="prog-state-red"> Not Started </td>                                    
+                                        <td class="prog-state-yellow-1"> WIP </td>                                    
                                     </tr>                                                                     
                                     <tr>
                                         <td> Sort Functionality </td>
-                                        <td class="prog-state-red"> Not Started </td>                                    
+                                        <td class="prog-state-yellow-1"> WIP </td>                                    
                                     </tr>  
                                     <tr>
                                         <td> Reorder Functionality </td>
@@ -205,6 +210,10 @@ family=Lexend:wght@100..900
                                         <td> Isolated Information Area </td>
                                         <td class="prog-state-red"> Not Started  </td>                                    
                                     </tr>  
+                                    <tr>
+                                        <td> Iterable Columns </td>
+                                        <td class="prog-state-red"> Not Started  </td>                                    
+                                    </tr>                                      
                                     <tr>
                                         <td> Introduction Screen </td>
                                         <td class="prog-state-green"> Done (Can be refined) </td>                                    

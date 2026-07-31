@@ -22,32 +22,31 @@ function updateTable() {
 
         rowContent.forEach(addCell);
         function addCell(value, index) {            
-            let origIndex = index;
             if (!config.enabledColumns[index]) return; // Visibility Check
             if ((index === 4 || index === 5) && !config.enabledColumns[3]) return;
             if ((index === 15) && !config.enabledColumns[14]) return;
 
             if ((value === "") && type === "th") return; // Header Colspan Check
 
-            if (origIndex === 1 && searchDrugText.length > 1) { 
+            if (index === 1 && searchDrugText.length > 1) { 
                 value = value.replaceAll(regex_searchDrugText, match => 
                 `<span class="text-found">${match}</span>`);
             } // Drug Search
 
-            if (origIndex !== 0 && searchGenText.length > 1) {
+            if (index !== 0 && searchGenText.length > 1) {
                 value = value.replaceAll(regex_searchGenText, match => 
                 `<span class="text-found">${match}</span>`);
             } // Gen Search
 
             const cell = document.createElement(type); 
 
-            cell.classList.add(...headerColumns[index][1]);
+            cell.classList.add(...headerColumns[index].classes);
 
-            if (origIndex === 3 && type === "th") {
+            if (index === 3 && type === "th") {
                 cell.setAttribute("colspan", "3");
             } // Header Colspan (Pharm Class)
 
-            if (origIndex === 14 && type === "th") {
+            if (index === 14 && type === "th") {
                 cell.setAttribute("colspan", "2");
             } // Header Colspan (ADR)
 
@@ -68,91 +67,200 @@ function updateTable() {
 }
 
 let dataSheetData = null;
-function updateData(){
-    fetch(dataSheetUrl)
-        .then(response => {
-            console.log("HTTP Status:", response.status);
-            return response.json();
-        })
+async function updateData(show = true) {
+    try {
+        const response = await fetch(dataSheetUrl);
 
-        .then(data => {
+        console.log("HTTP Status:", response.status);
 
-            console.log("API Response:", data);
+        const data = await response.json();
 
-            if (data.error) {
-                console.error("Google API Error:", data.error.message);
-                return;
-            }
+        console.log("API Response:", data);
 
-            if (!data.values) {
-                console.error("No values were returned.");
-                return;
-            }
+        if (data.error) {
+            console.error("Google API Error:", data.error.message);
+            return;
+        }
 
-            dataSheetData = data.values;
-            updateTable();
-        })
-        
-        .catch(error => {
-            console.error("Fetch Error:", error);
-        });
+        if (!data.values) {
+            console.error("No values were returned.");
+            return;
+        }
+
+        dataSheetData = data.values;
+
+        if (show) updateTable();
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
+    }
 }
 
-// Search
 HTML.searchDrug.addEventListener("input", () => {
-    if (dataSheetData) {updateTable()}
+    if (dataSheetData && firstRun) {updateTable()}
 });
 
 HTML.searchGen.addEventListener("input", () => {
-    if (dataSheetData) {updateTable()}
+    if (dataSheetData && firstRun) {updateTable()}
 });
 
 // Filter
+let selectedFilterHeader = false;
+const selectedFilterContent = [];
 headerNames.forEach((value, index) => {
     if (value === "") return;
-    if (!headerColumns[index][2]) return;
+    if (!headerColumns[index].isFilterable) return;
 
     const headerChoice = document.createElement("li");
     headerChoice.innerHTML = value;
-    headerChoice.classList.add(headerColumns[index][1][1]);
+    headerChoice.classList.add(headerColumns[index].classes[1]);
 
-    HTML.filterHeaderChoiceList.appendChild(headerChoice);
+    HTML.filterHeaderList.appendChild(headerChoice);
     HTML.filterHeaderChoice[index] = headerChoice;
 });
 
+let contentList = [];
+async function updateContentList(colIndex) {    
+    if (!dataSheetData) {await updateData(false)}
+
+    const contentListSet = new Set();
+    clearFilterContent();
+
+    dataSheetData.forEach((value, rowIndex) => {
+        if (rowIndex === 0) return;
+
+        let content = value[colIndex -1];
+        if (content === "") return;
+        contentListSet.add(...content.split(", "));
+    })
+
+    contentList = [...contentListSet];
+
+    contentList.sort((a, b) => a.localeCompare(b));
+
+    contentList.forEach((value, listIndex) => {
+        if (value === "") return;
+
+        const contentChoice = document.createElement("li");
+        contentChoice.innerHTML = value;
+        contentChoice.classList.add(headerColumns[colIndex].classes[1]);
+
+        HTML.filterContentList.appendChild(contentChoice);
+
+        HTML.filterContentChoice[listIndex] = contentChoice;
+    });
+
+    addFilterContentOnClick();
+}
+
 HTML.filterHeaderInput.addEventListener("focus", () => {
-    HTML.filterHeaderChoiceList.style.display = "block";
+    HTML.filterHeaderList.style.display = "block";
+    HTML.visiBox.style.opacity = 0.25;
 });
 
 HTML.filterHeaderInput.addEventListener("blur", () => {
-    HTML.filterHeaderChoiceList.style.display = "none";
+    HTML.filterHeaderList.style.display = "none";
+    HTML.visiBox.style.opacity = 1;
+});
+
+HTML.filterContentInput.addEventListener("focus", () => {
+    if (!selectedFilterHeader) return;
+    HTML.filterContentList.style.display = "block";
+    HTML.filterAddHeader.style.borderRadius = "4px 4px 0px 0px";
+    HTML.visiBox.style.opacity = 0.25;
+});
+
+HTML.filterContentInput.addEventListener("blur", () => {
+    HTML.filterContentList.style.display = "none";
+    HTML.visiBox.style.opacity = 1;
 });
 
 HTML.filterHeaderInput.addEventListener("input", (event) => {
     const inputValue = event.target.value;
-    const regex_inputValue = new RegExp(inputValue, "gi");
 
-    HTML.filterHeaderChoice.forEach((value, index) => {
-        if (!headerNames[index].toLowerCase().includes(inputValue.toLowerCase())) {
+    HTML.filterHeaderList.style.display = "block";
+    headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
+    selectedFilterHeader = false;
+
+    if (contentList !== []) clearFilterContent();
+
+    filterAutocomp(HTML.filterHeaderChoice, HTML.filterHeaderList, inputValue, headerNames);
+});
+
+HTML.filterContentInput.addEventListener("input", (event) => {
+    const inputValue = event.target.value;
+
+    HTML.filterContentList.style.display = "block";
+    headerStyles.forEach((value) => {HTML.filterContentInput.classList.remove(value);})
+
+    filterAutocomp(HTML.filterContentChoice, HTML.filterContentList, inputValue, contentList);
+});
+
+function filterAutocomp(HTML_choice, HTML_container, input, text) {
+    let foundMatch = false;
+    const regex_inputValue = new RegExp(input, "gi");
+
+    HTML_choice.forEach((value, index) => {
+        value.innerHTML = text[index];
+
+        if (!text[index].toLowerCase().includes(input.toLowerCase())) {
             value.style.display = "none";
             return;
         }
 
-        if (inputValue.length > 1) {
-            value.innerHTML = headerNames[index].replaceAll(regex_inputValue, match => 
-            `<span class="text-found">${match}</span>`);           
-        }
+        if (input.length > 1) {
+            value.innerHTML = text[index].replaceAll(regex_inputValue, match => 
+            `<span class="text-found">${match}</span>`);
+        } 
 
+        foundMatch = true;
         value.style.display = "block";
     })
-});
+
+    if (!foundMatch) {
+        HTML_container.style.display = "none";
+    }
+}
 
 HTML.filterHeaderChoice.forEach((value, index) => {
     value.addEventListener("mousedown", () => {
-        console.log(headerNames[index]);
         HTML.filterHeaderInput.value = headerNames[index];
+        headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
+        HTML.filterHeaderInput.classList.add(headerColumns[index].classes[1]);
+
+        selectedFilterHeader = true;
+        updateContentList(index);
     })
 });
+
+function addFilterContentOnClick() {
+    HTML.filterContentChoice.forEach((value, index) => {
+        value.addEventListener("mousedown", () => {
+            let filterValue = contentList[index];
+            headerStyles.forEach(value => HTML.filterContentInput.classList.remove(value))
+
+            selectedFilterContent.push(filterValue);
+            addFilterInput(filterValue);
+        })
+    });
+}
+
+function addFilterInput(value) {
+    const newInput = document.createElement("input");
+
+    newInput.value = value;
+    newInput.classList.add("filter-input", "filter-input-content");
+
+    HTML.filterContentNew.appendChild(newInput);
+    HTML.filterContentNew.style.display = "block";
+}
+
+function clearFilterContent() {
+    contentList = [];
+    selectedFilterContent.length = 0;
+    HTML.filterContentList.replaceChildren();
+    HTML.filterContentChoice.length = 0;
+}
 
 // Visibility & Order
 let realCount = 0;
@@ -170,7 +278,7 @@ headerNames.forEach((value, index) => {
         name.classList.toggle("disabled");
     }
 
-    name.classList.add(headerColumns[index][1][1]);
+    name.classList.add(headerColumns[index].classes[1]);
 
     HTML.visiBox.appendChild(name);
     if (HTML.visiBoxName.length !== headerNames.length) {
@@ -235,11 +343,11 @@ function sortTable(tbody, index, asc = true) {
 HTML.runButton.addEventListener("click", () => {updateData()});
 
 // Intro
-let firstRun = true;
+let firstRun = false;
 document.addEventListener("keydown", (event) => {
-    if (!firstRun) return;
+    if (dataSheetData) return;
     if (document.activeElement.tagName === 'INPUT') return;
 
+    firstRun = true;
     updateData();
-    firstRun = false;
 });

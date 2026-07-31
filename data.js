@@ -1,47 +1,165 @@
 // Fixed Data
 const headerColumns = [
     // Header Name, Header Classes, Header Filter-ability
-    ["No.", ["w0", "basic", "drug-no"], false],
-    ["Generic Name", ["w1f", "basic", "no-scroll"], false],
-    ["Brand Name", ["w1", "basic"], false],
+    {
+        name: "No.", // 0
+        classes: ["w0", "basic", "drug-no"],
+        isFilterable: false,
+    },
+    {
+        name: "Generic Name", // 1
+        classes: ["w1f", "basic", "no-scroll"],
+        isFilterable: false,
+    },
+    {
+        name: "Brand Name", // 2
+        classes: ["w1", "basic"],
+        isFilterable: false,
+    },
 
-    ["Pharmacological Class", ["w1", "pharmc"], true],
-    ["", ["w1", "pharmc"]],
-    ["", ["w1", "pharmc"]],
-    ["Add. Pharm. Class", ["w1", "pharmc"], false],
-    
-    ["Therapeutic Class", ["w3", "therap"], true],
-    ["Indications", ["w3", "therap"], true],
-    ["Affected Systems", ["w1", "therap"], true],
+    {
+        name: "Pharmacological Class", // 3
+        classes: ["w1", "pharmc"],
+        isFilterable: true,
+    },
+    {
+        name: "", // 4
+        classes: ["w1", "pharmc"],
+        isFilterable: false,
+    },
+    {
+        name: "", // 5
+        classes: ["w1", "pharmc"],
+        isFilterable: false,
+    },
+    {
+        name: "Add. Pharm. Class", // 6
+        classes: ["w1", "pharmc"],
+        isFilterable: false,
+    },
 
-    ["Route of Administration", ["w2", "practuse"], true],
-    ["Dosage", ["w2", "practuse"], false],
-    ["Counseling Points", ["w2", "practuse"], true],
-    ["Legal Classification", ["w2", "practuse"], true],
+    {
+        name: "Therapeutic Class", // 7
+        classes: ["w3", "therap"],
+        isFilterable: true,
+    },
+    {
+        name: "Indications", // 8
+        classes: ["w3", "therap"],
+        isFilterable: true,
+    },
+    {
+        name: "Affected Systems", // 9
+        classes: ["w1", "therap"],
+        isFilterable: true,
+    },
 
-    ["Adverse Effects", ["w2", "practsafe"], true],
-    ["", ["w2", "practsafe"]],
-    ["Contraindications", ["w2", "practsafe"], true],
-    ["Precautions", ["w2", "practsafe"], true],
-    ["Drug Interactions", ["w2", "practsafe"], true],
-    ["Food Interactions", ["w2", "practsafe"], true],
-    ["Special Populations", ["w2", "practsafe"], true],
-    ["Monitoring", ["w2", "practsafe"], true],
+    {
+        name: "Route of Administration", // 10
+        classes: ["w2", "practuse"],
+        isFilterable: true,
+    },
+    {
+        name: "Dosage", // 11
+        classes: ["w2", "practuse"],
+        isFilterable: false,
+    },
+    {
+        name: "Counseling Points", // 12
+        classes: ["w2", "practuse"],
+        isFilterable: true,
+    },
+    {
+        name: "Legal Classification", // 13
+        classes: ["w2", "practuse"],
+        isFilterable: true,
+    },
 
-    ["Absorption", ["w1", "pk"], false],
-    ["Distribution", ["w1", "pk"], false],
-    ["Metabolism", ["w1", "pk"], true],
-    ["Elimination", ["w1", "pk"], false],
+    {
+        name: "Adverse Effects", // 13
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "", // 14
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Contraindications", // 15
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Precautions", // 16
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Drug Interactions", // 17
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Food Interactions", // 18
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Special Populations", // 19
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
+    {
+        name: "Monitoring", // 20
+        classes: ["w2", "practsafe"],
+        isFilterable: true,
+    },
 
-    ["Notes", ["w1", "basic"], false], 
-    ["Tags", ["w1", "basic"], true],
-    ["Encounters", ["w1", "basic"], true],
+    {
+        name: "Absorption", // 21
+        classes: ["w1", "pk"],
+        isFilterable: false,
+    },
+    {
+        name: "Distribution", // 22
+        classes: ["w1", "pk"],
+        isFilterable: false,
+    },
+    {
+        name: "Metabolism", // 23
+        classes: ["w1", "pk"],
+        isFilterable: true,
+    },
+    {
+        name: "Elimination", // 24
+        classes: ["w1", "pk"],
+        isFilterable: false,
+    },
+
+    {
+        name: "Notes", // 25
+        classes: ["w1", "basic"],
+        isFilterable: false,
+    },
+    {
+        name: "Tags", // 26
+        classes: ["w1", "basic"],
+        isFilterable: true,
+    },
+    {
+        name: "Encounters", // 27
+        classes: ["w1", "basic"],
+        isFilterable: true,
+    },
 ];
 
 const headerNames = [];
 headerColumns.forEach((value) => {
-    headerNames.push(value[0]);
+    headerNames.push(value.name);
 });
+
+const headerStyles = ["basic", "pharmc", "therap", "practuse", "practsafe", "pk"];
 
 // (Replace with Map method?)
 
@@ -63,9 +181,14 @@ const HTML = {
     visiBoxButton: [],
     visiDefaultButton: document.querySelector(".visibility-button"),
 
+    filterAddHeader: document.querySelector(".filter-add-box"),
     filterHeaderInput: document.querySelector(".filter-input-header"),
-    filterHeaderChoiceList: document.querySelector(".filter-header-list"),
+    filterHeaderList: document.querySelector(".filter-header-list"),
     filterHeaderChoice: [],
+    filterContentInput: document.querySelector(".filter-input-content"),
+    filterContentList: document.querySelector(".filter-content-list"),
+    filterContentNew: document.querySelector(".filter-add-box > div:nth-child(2)"),
+    filterContentChoice: [],
 
     runButton: document.querySelector(".side-refresh button"),
 };

@@ -10,6 +10,8 @@ const config = {
         true, true, true
     ],
 
+    filter: [],
+    
     sortOrder: [
         [1, true], 
         [8, true], [7, true],
