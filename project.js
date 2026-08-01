@@ -24,7 +24,8 @@ function updateTable() {
 
             return speFilter.filter.some(filterValue =>
                 cells.some(cell =>
-                    cell.toLowerCase().includes(filterValue.toLowerCase())
+                    cell.split(", ").some(cellSpe => 
+                        cellSpe.toLowerCase() === filterValue.toLowerCase())
                 )
             );
         });
@@ -32,7 +33,7 @@ function updateTable() {
         if (config.filter.length > 0 && index !== 0 && !passed) {
             return;
         }
-        
+
         const type = (index === 0) ? "th" : "td";
         const rowContent = (index === 0) ? [...headerNames] : [realIndex + 1, ...row];
         if (index !== 0) {realIndex++};
@@ -160,6 +161,14 @@ async function updateContentList(colIndex) {
 
         if (content === "") return;
         content.split(", ").forEach(item => contentListSet.add(item));
+
+        if (config.filter.length > 0) {
+            config.filter.forEach(filter => {
+                filter.filter.forEach(speFilter => {
+                    contentListSet.delete(speFilter)
+                })
+            })
+        }
     })
 
     contentList = [...contentListSet];
@@ -282,6 +291,9 @@ function addFilterInput(value) {
     newInput.innerHTML = value;
     newInput.classList.add("filter-new-input", "no-scroll-bar");
 
+    newInputButton.classList.add("filter-remove-button");
+    newInputButton.textContent = "×";
+    
     newInputButton.addEventListener("click", () => {
         HTML.filterContentNew.removeChild(newInput);
         selectedFilterContent.splice(selectedFilterContent.indexOf(value), 1);
@@ -295,13 +307,57 @@ function addFilterInput(value) {
 
 HTML.filterAddButton.addEventListener("click", () => {
     if (selectedFilterHeader == -1 || selectedFilterContent.length == 0) return;
-    config.filter.push({ header: selectedFilterHeader, filter: [...selectedFilterContent] });
+    let newFilter = { header: selectedFilterHeader, filter: [...selectedFilterContent] };
+    config.filter.push(newFilter);
     console.log(headerNames[config.filter[0].header]);
     clearFilterHeader();
     clearFilterContent();
+    addFilterDisplay(config.filter.lastIndexOf(newFilter));
 
     if (dataSheetData && firstRun) updateTable();
 }) // Add Filter
+
+function addFilterDisplay(filterNo) {
+    const newFilter = config.filter[filterNo];
+    const newContainer = document.createElement("div");
+    const activeHeader = document.createElement("div");
+    const activeHeaderTitle = document.createElement("span");
+    const activeContent = document.createElement("div");
+    const removeButton = document.createElement("div");
+
+    activeHeaderTitle.innerHTML = `${filterNo + 1}. ${headerNames[newFilter.header]}`;
+    activeHeader.classList.add("filter-active-header", headerColumns[newFilter.header].classes[1]);
+
+    activeContent.innerHTML = `${newFilter.filter.join(", ")}`;
+    activeContent.classList.add("filter-active-content", headerColumns[newFilter.header].classes[1]);
+
+    removeButton.classList.add("filter-remove-button", headerColumns[newFilter.header].classes[1]);
+    removeButton.textContent = "×";
+    removeButton.addEventListener("click", () => {
+        HTML.filterActive.removeChild(newContainer);
+
+        const realFilterNo = config.filter.indexOf(newFilter);
+        HTML.filterActiveHeaderList.splice(realFilterNo, 1);
+        config.filter.splice(realFilterNo, 1);
+
+        if (HTML.filterActiveHeaderList.length > 0) {
+            HTML.filterActiveHeaderList.forEach((header, index) => {
+                header.textContent = `${index + 1}. ${headerNames[config.filter[index].header]}`;
+            });
+        }   
+
+        if (dataSheetData && firstRun) updateTable();
+    })
+
+    activeHeader.appendChild(activeHeaderTitle);
+    activeHeader.appendChild(removeButton);
+    newContainer.appendChild(activeHeader);
+    newContainer.appendChild(activeContent);
+
+    HTML.filterActive.appendChild(newContainer);
+    HTML.filterActiveHeaderList.push(activeHeaderTitle);
+
+} // Add Active Filter Display
 
 function clearFilterHeader() {
     HTML.filterHeaderInput.value = "";

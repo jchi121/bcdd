@@ -82,7 +82,7 @@ nav * {
     font-size: 1em;
 }
 
-.item-content-a > div {
+.config-item-content > div {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -90,7 +90,7 @@ nav * {
 }
 
 .config-box {
-    min-height: 50px;
+    min-height: 40px;
 
     background: var(--bg-color-lighter2);
     border: 1px solid var(--bg-color-darker);
@@ -147,6 +147,56 @@ nav input::placeholder{
 }
 
 /* Config: Filter */
+.filter-active-box {
+    overflow: hidden;
+}
+
+.filter-active-box > div {
+    padding: 0px;
+}
+
+.filter-active-header, .filter-active-content {
+    padding: 5px;
+
+    font-size: 0.7rem;
+}
+
+.filter-active-header {
+    position: relative;
+
+    background: var(--cell-darker);
+
+    font-weight: bold;
+}
+
+.filter-active-content {
+    background: var(--cell-lighter);
+}
+
+.filter-remove-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    height: 10px;
+    width: 10px;
+
+    background: var(--config-remove-button-color);
+    border-radius: 5px;
+    box-shadow: 0.5px 0.5px 0.5px var(--border-color);
+
+    color: var(--border-text-color);
+}
+
+.filter-remove-button:hover {
+    background: var(--config-remove-button-color-hover);
+}
+
 .filter-add-box {
     display: flex;
     flex-direction: column;
@@ -189,25 +239,6 @@ nav input::placeholder{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.filter-add-box .filter-new-input > div {
-    display: inline-flex;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translate(-50%, -50%);
-
-    height: 10px;
-    width: 10px;
-
-    background: var(--bg-color-lighter);
-    border-radius: 5px;
-    box-shadow: 0.5px 0.5px 0.5px var(--border-color);
-}
-
-.filter-add-box .filter-new-input > div:hover {
-    background: var(--bg-color);
 }
 
 .filter-add-box ul {

@@ -116,24 +116,15 @@ main {
     background: linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0));
 }
 
-/* Table Header Buttons */
-.main-table th:nth-child(n+3)::after{
-    content: "";
-    position: absolute;
-
-    width: 20px;
-    height: 20px;
-    right: 10px;
-    top: 50% - 10px;
-
-    border: 1px solid #90A1B9;
-    border-radius: 5px;
-    background: #E2E8F0;
+.main-table td:nth-child(n+4).no-leftb {
+    border-left: 0px solid black;
 }
 
+/* Table Header Buttons 
 .main-table th:nth-child(n+3) {
     padding-right: 36px;
 }
+*/
 
 /* Table Width Control */
 .main-table .w0 {

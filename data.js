@@ -24,12 +24,12 @@ const headerColumns = [
     },
     {
         name: "", // 4
-        classes: ["w1", "pharmc"],
+        classes: ["w1", "pharmc", "no-leftb"],
         isFilterable: false,
     },
     {
         name: "", // 5
-        classes: ["w1", "pharmc"],
+        classes: ["w1", "pharmc", "no-leftb"],
         isFilterable: false,
     },
     {
@@ -82,7 +82,7 @@ const headerColumns = [
     },
     {
         name: "", // 15
-        classes: ["w2", "practsafe"],
+        classes: ["w2", "practsafe", "no-leftb"],
         isFilterable: true,
     },
     {
@@ -176,6 +176,8 @@ const HTML = {
     visiBoxButton: [],
     visiDefaultButton: document.querySelector(".visibility-button"),
 
+    filterActive: document.querySelector(".filter-active-box"),
+    filterActiveHeaderList: [],
     filterAddHeader: document.querySelector(".filter-add-box"),
     filterHeaderInput: document.querySelector(".filter-input-header"),
     filterHeaderList: document.querySelector(".filter-header-list"),

@@ -32,6 +32,8 @@ body {
   --border-text-color: #FFFFFF;
 
   --config-search-highlight-color: #FFFBEB;
+  --config-remove-button-color: #FFA2A2;
+  --config-remove-button-color-hover: #FF6467;
 
   --table-cell-basic-header-color: #B9C6DF; /* 4th, Slate */
   --table-cell-basic-cell-color-darker: #DCE3EF; /* 3rd */
