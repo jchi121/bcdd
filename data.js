@@ -76,79 +76,79 @@ const headerColumns = [
     },
 
     {
-        name: "Adverse Effects", // 13
+        name: "Adverse Effects", // 14
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "", // 14
+        name: "", // 15
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Contraindications", // 15
+        name: "Contraindications", // 16
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Precautions", // 16
+        name: "Precautions", // 17
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Drug Interactions", // 17
+        name: "Drug Interactions", // 18
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Food Interactions", // 18
+        name: "Food Interactions", // 19
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Special Populations", // 19
+        name: "Special Populations", // 20
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
-        name: "Monitoring", // 20
+        name: "Monitoring", // 21
         classes: ["w2", "practsafe"],
         isFilterable: true,
     },
 
     {
-        name: "Absorption", // 21
+        name: "Absorption", // 22
         classes: ["w1", "pk"],
         isFilterable: false,
     },
     {
-        name: "Distribution", // 22
+        name: "Distribution", // 23
         classes: ["w1", "pk"],
         isFilterable: false,
     },
     {
-        name: "Metabolism", // 23
+        name: "Metabolism", // 24
         classes: ["w1", "pk"],
         isFilterable: true,
     },
     {
-        name: "Elimination", // 24
+        name: "Elimination", // 25
         classes: ["w1", "pk"],
         isFilterable: false,
     },
 
     {
-        name: "Notes", // 25
+        name: "Notes", // 26
         classes: ["w1", "basic"],
         isFilterable: false,
     },
     {
-        name: "Tags", // 26
+        name: "Tags", // 27
         classes: ["w1", "basic"],
         isFilterable: true,
     },
     {
-        name: "Encounters", // 27
+        name: "Encounters", // 28
         classes: ["w1", "basic"],
         isFilterable: true,
     },

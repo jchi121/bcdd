@@ -16,27 +16,23 @@ function updateTable() {
         if (index !== 0 && !row[0].toLowerCase().includes(searchDrugText.toLowerCase())) return;
         if (index !== 0 && !row.toString().toLowerCase().includes(searchGenText.toLowerCase())) return;
 
-        let filterPass = [];
-        if (config.filter.length > 0 && index !== 0) {
-            config.filter.forEach((speFilter) => {
-                speFilter.filter.forEach((filterValue) => {
-                    if (row[speFilter.header - 1].toLowerCase().includes(filterValue.toLowerCase())) {
-                        filterPass.push(true);
-                    }
+        const passed = config.filter.every(speFilter => {
+            const cells =
+                speFilter.header === 3 ? [row[2], row[3], row[4]] :
+                speFilter.header === 14 ? [row[13], row[14]] :
+                [row[speFilter.header - 1]];
 
-                    if (speFilter.header === 3) {
-                        console.log("found");
-                        for (i = 0; i < 2; i++) {
-                            if (row[speFilter.header + i].toLowerCase().includes(filterValue.toLowerCase())) {
-                                filterPass.push(true);
-                            }
-                        }
-                    }
-                })
-            })
+            return speFilter.filter.some(filterValue =>
+                cells.some(cell =>
+                    cell.toLowerCase().includes(filterValue.toLowerCase())
+                )
+            );
+        });
+
+        if (config.filter.length > 0 && index !== 0 && !passed) {
+            return;
         }
-        if (config.filter.length > 0 && index !== 0 && !(filterPass.length === config.filter.length)) return;
-
+        
         const type = (index === 0) ? "th" : "td";
         const rowContent = (index === 0) ? [...headerNames] : [realIndex + 1, ...row];
         if (index !== 0) {realIndex++};
@@ -150,6 +146,14 @@ async function updateContentList(colIndex) {
                 contentArr.push(value[colIndex + i]);
             }
             content = contentArr.join(", ");
+        } else if (colIndex === 14) {
+            console.log("found");
+            let contentArr = [];
+            for (i = -1; i < 1; i++) {
+                if (value[colIndex + i] === "") continue;
+                contentArr.push(value[colIndex + i]);
+            }
+            content = contentArr.join(", ");        
         } else {
             content += value[colIndex - 1];
         }
