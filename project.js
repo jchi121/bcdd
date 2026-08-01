@@ -13,8 +13,29 @@ function updateTable() {
         const regex_searchDrugText = new RegExp(searchDrugText, "gi");
         const regex_searchGenText = new RegExp(searchGenText, "gi");
 
-        if (index !== 0 && !row[0].toLowerCase().includes(searchDrugText.toLowerCase())) {return};
-        if (index !== 0 && !row.toString().toLowerCase().includes(searchGenText.toLowerCase())) {return};
+        if (index !== 0 && !row[0].toLowerCase().includes(searchDrugText.toLowerCase())) return;
+        if (index !== 0 && !row.toString().toLowerCase().includes(searchGenText.toLowerCase())) return;
+
+        let filterPass = [];
+        if (config.filter.length > 0 && index !== 0) {
+            config.filter.forEach((speFilter) => {
+                speFilter.filter.forEach((filterValue) => {
+                    if (row[speFilter.header - 1].toLowerCase().includes(filterValue.toLowerCase())) {
+                        filterPass.push(true);
+                    }
+
+                    if (speFilter.header === 3) {
+                        console.log("found");
+                        for (i = 0; i < 2; i++) {
+                            if (row[speFilter.header + i].toLowerCase().includes(filterValue.toLowerCase())) {
+                                filterPass.push(true);
+                            }
+                        }
+                    }
+                })
+            })
+        }
+        if (config.filter.length > 0 && index !== 0 && !(filterPass.length === config.filter.length)) return;
 
         const type = (index === 0) ? "th" : "td";
         const rowContent = (index === 0) ? [...headerNames] : [realIndex + 1, ...row];
@@ -73,21 +94,13 @@ async function updateData(show = true) {
 
         console.log("HTTP Status:", response.status);
 
-        const data = await response.json();
+        const csv = await response.text();
 
-        console.log("API Response:", data);
+        const parsed = Papa.parse(csv, {
+            skipEmptyLines: true
+        });
 
-        if (data.error) {
-            console.error("Google API Error:", data.error.message);
-            return;
-        }
-
-        if (!data.values) {
-            console.error("No values were returned.");
-            return;
-        }
-
-        dataSheetData = data.values;
+        dataSheetData = parsed.data;
 
         if (show) updateTable();
 
@@ -105,7 +118,7 @@ HTML.searchGen.addEventListener("input", () => {
 });
 
 // Filter
-let selectedFilterHeader = false;
+let selectedFilterHeader = -1;
 const selectedFilterContent = [];
 headerNames.forEach((value, index) => {
     if (value === "") return;
@@ -117,7 +130,7 @@ headerNames.forEach((value, index) => {
 
     HTML.filterHeaderList.appendChild(headerChoice);
     HTML.filterHeaderChoice[index] = headerChoice;
-});
+}); // Add Filter Header Choices
 
 let contentList = [];
 async function updateContentList(colIndex) {    
@@ -129,9 +142,20 @@ async function updateContentList(colIndex) {
     dataSheetData.forEach((value, rowIndex) => {
         if (rowIndex === 0) return;
 
-        let content = value[colIndex -1];
+        let content = "";
+        if (colIndex === 3) {
+            let contentArr = [];
+            for (i = -1; i < 2; i++) {
+                if (value[colIndex + i] === "") continue;
+                contentArr.push(value[colIndex + i]);
+            }
+            content = contentArr.join(", ");
+        } else {
+            content += value[colIndex - 1];
+        }
+
         if (content === "") return;
-        contentListSet.add(...content.split(", "));
+        content.split(", ").forEach(item => contentListSet.add(item));
     })
 
     contentList = [...contentListSet];
@@ -151,7 +175,7 @@ async function updateContentList(colIndex) {
     });
 
     addFilterContentOnClick();
-}
+} // Add Filter Content Choices
 
 HTML.filterHeaderInput.addEventListener("focus", () => {
     HTML.filterHeaderList.style.display = "block";
@@ -164,7 +188,7 @@ HTML.filterHeaderInput.addEventListener("blur", () => {
 });
 
 HTML.filterContentInput.addEventListener("focus", () => {
-    if (!selectedFilterHeader) return;
+    if (selectedFilterHeader === -1) return;
     HTML.filterContentList.style.display = "block";
     HTML.filterAddHeader.style.borderRadius = "4px 4px 0px 0px";
     HTML.visiBox.style.opacity = 0.25;
@@ -180,7 +204,7 @@ HTML.filterHeaderInput.addEventListener("input", (event) => {
 
     HTML.filterHeaderList.style.display = "block";
     headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
-    selectedFilterHeader = false;
+    selectedFilterHeader = 0;
 
     if (contentList !== []) clearFilterContent();
 
@@ -228,10 +252,10 @@ HTML.filterHeaderChoice.forEach((value, index) => {
         headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
         HTML.filterHeaderInput.classList.add(headerColumns[index].classes[1]);
 
-        selectedFilterHeader = true;
+        selectedFilterHeader = index;
         updateContentList(index);
     })
-});
+}); // Click Filter Header Choice
 
 function addFilterContentOnClick() {
     HTML.filterContentChoice.forEach((value, index) => {
@@ -239,26 +263,53 @@ function addFilterContentOnClick() {
             let filterValue = contentList[index];
             headerStyles.forEach(value => HTML.filterContentInput.classList.remove(value))
 
-            selectedFilterContent.push(filterValue);
+            value.style.display = "none";
+
             addFilterInput(filterValue);
         })
     });
-}
+} // Click Filter Content Choice
 
 function addFilterInput(value) {
-    const newInput = document.createElement("input");
+    selectedFilterContent.push(value);
+    const newInput = document.createElement("div");
+    const newInputButton = document.createElement("div");
 
-    newInput.value = value;
-    newInput.classList.add("filter-input", "filter-input-content");
+    newInput.innerHTML = value;
+    newInput.classList.add("filter-new-input", "no-scroll-bar");
 
+    newInputButton.addEventListener("click", () => {
+        HTML.filterContentNew.removeChild(newInput);
+        selectedFilterContent.splice(selectedFilterContent.indexOf(value), 1);
+        if (selectedFilterContent.length === 0) HTML.filterContentNew.style.display = "none";
+    })
+
+    newInput.appendChild(newInputButton);
     HTML.filterContentNew.appendChild(newInput);
-    HTML.filterContentNew.style.display = "block";
+    HTML.filterContentNew.style.display = "flex";
+} // Add Selected Filter Content
+
+HTML.filterAddButton.addEventListener("click", () => {
+    if (selectedFilterHeader == -1 || selectedFilterContent.length == 0) return;
+    config.filter.push({ header: selectedFilterHeader, filter: [...selectedFilterContent] });
+    console.log(headerNames[config.filter[0].header]);
+    clearFilterHeader();
+    clearFilterContent();
+
+    if (dataSheetData && firstRun) updateTable();
+}) // Add Filter
+
+function clearFilterHeader() {
+    HTML.filterHeaderInput.value = "";
 }
 
 function clearFilterContent() {
     contentList = [];
     selectedFilterContent.length = 0;
     HTML.filterContentList.replaceChildren();
+    HTML.filterContentInput.value = "";
+    HTML.filterContentNew.replaceChildren();
+    HTML.filterContentNew.style.display = "none";
     HTML.filterContentChoice.length = 0;
 }
 
@@ -299,7 +350,7 @@ function changeVisi(index) {
     if (index > 1) {
         config.enabledColumns[index] = !(config.enabledColumns[index]);
         HTML.visiBoxName[index].classList.toggle("disabled");
-        if (dataSheetData) updateTable();
+        if (dataSheetData && firstRun) updateTable();
     }
 }
 
@@ -310,7 +361,7 @@ HTML.visiDefaultButton.addEventListener("click", () => {
             HTML.visiBoxName[index].classList.remove("disabled")
         } else HTML.visiBoxName[index].classList.add("disabled")
     })
-    if (dataSheetData) updateTable();
+    if (dataSheetData && firstRun) updateTable();
 })
 
 // Sort
@@ -340,7 +391,10 @@ function sortTable(tbody, index, asc = true) {
 }
 
 // Run Button
-HTML.runButton.addEventListener("click", () => {updateData()});
+HTML.runButton.addEventListener("click", () => {
+    firstRun = true;
+    updateData();
+});
 
 // Intro
 let firstRun = false;

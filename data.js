@@ -35,7 +35,7 @@ const headerColumns = [
     {
         name: "Add. Pharm. Class", // 6
         classes: ["w1", "pharmc"],
-        isFilterable: false,
+        isFilterable: true,
     },
 
     {
@@ -161,12 +161,7 @@ headerColumns.forEach((value) => {
 
 const headerStyles = ["basic", "pharmc", "therap", "practuse", "practsafe", "pk"];
 
-// (Replace with Map method?)
-
-const dataSheetAPIKey = ""; 
-const dataSheetId = "1bh0Jr6vpKCfaO8c30WHx2nat-NidhI7qNJ963TFgSpY";
-const dataSheetRange = encodeURIComponent("Drugs!A:AB");
-const dataSheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${dataSheetId}/values/${dataSheetRange}?key=${dataSheetAPIKey}`;
+const dataSheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_ksRb3jqkaafwes-AjRmFrFyzj8T2iTP6EGsE96NvBaUQI6hi4iTQaXkwE1tNr4N3SbOtHC-9hp7L/pub?gid=0&single=true&output=csv`;
 
 const HTML = {
     thead: document.querySelector(".main-table thead"),
@@ -189,6 +184,7 @@ const HTML = {
     filterContentList: document.querySelector(".filter-content-list"),
     filterContentNew: document.querySelector(".filter-add-box > div:nth-child(2)"),
     filterContentChoice: [],
+    filterAddButton: document.querySelector(".filter-add-button"),
 
     runButton: document.querySelector(".side-refresh button"),
 };
