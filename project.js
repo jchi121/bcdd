@@ -136,17 +136,19 @@ async function updateContentList(colIndex) {
     const contentListSet = new Set();
     clearFilterContent();
 
+    const sets = [new Set(), new Set(), new Set()]
+    
     dataSheetData.forEach((value, rowIndex) => {
         if (rowIndex === 0) return;
 
         let content = "";
         if (colIndex === 3) {
-            let contentArr = [];
-            for (i = -1; i < 2; i++) {
-                if (value[colIndex + i] === "") continue;
-                contentArr.push(value[colIndex + i]);
-            }
-            content = contentArr.join(", ");
+            for (let i = -1; i < 2; i++) {
+                const item = value[colIndex + i];
+                if (!item) continue;
+
+                item.split(", ").forEach(name => sets[i + 1].add(name));
+            } // **************
         } else if (colIndex === 14) {
             console.log("found");
             let contentArr = [];
@@ -160,7 +162,8 @@ async function updateContentList(colIndex) {
         }
 
         if (content === "") return;
-        content.split(", ").forEach(item => contentListSet.add(item));
+
+        if (colIndex !== 3) content.split(", ").forEach(item => contentListSet.add(item));           
 
         if (config.filter.length > 0) {
             config.filter.forEach(filter => {
@@ -171,9 +174,24 @@ async function updateContentList(colIndex) {
         }
     })
 
-    contentList = [...contentListSet];
+    if (colIndex === 3) {
+        contentList = [
+            ...[...sets[0]].sort((a, b) => a.localeCompare(b)),
+            ...[...sets[1]].sort((a, b) => a.localeCompare(b)),
+            ...[...sets[2]].sort((a, b) => a.localeCompare(b))
+        ]; // **************
+    } else {
+        contentList = [...contentListSet];
+        contentList.sort((a, b) => a.localeCompare(b));
+    }
 
-    contentList.sort((a, b) => a.localeCompare(b));
+    if (config.filter.length > 0) {
+        config.filter.forEach(filter => {
+            filter.filter.forEach(speFilter => {
+                contentList.splice(contentList.indexOf(speFilter), 1)
+            })
+        })
+    }
 
     contentList.forEach((value, listIndex) => {
         if (value === "") return;
@@ -293,7 +311,6 @@ function addFilterInput(value) {
 
     newInputButton.classList.add("filter-remove-button");
     newInputButton.textContent = "×";
-    
     newInputButton.addEventListener("click", () => {
         HTML.filterContentNew.removeChild(newInput);
         selectedFilterContent.splice(selectedFilterContent.indexOf(value), 1);
