@@ -18,7 +18,7 @@ function updateTable() {
 
         const passed = config.filter.every(speFilter => {
             const cells =
-                speFilter.header === 3 ? [row[2], row[3], row[4]] :
+                speFilter.header === 3 ? [row[2], row[3], row[4], row[5]] :
                 speFilter.header === 14 ? [row[13], row[14]] :
                 [row[speFilter.header - 1]];
 
@@ -68,7 +68,11 @@ function updateTable() {
                 cell.setAttribute("colspan", "2");
             } // Header Colspan (ADR)
 
-            cell.innerHTML = value ?? "";
+            if (value === "N/A") {
+                cell.innerHTML = "";
+            } else {
+                cell.innerHTML = value ?? "";
+            }
             tr.appendChild(cell);
         }
 
@@ -134,52 +138,57 @@ async function updateContentList(colIndex) {
     if (!dataSheetData) {await updateData(false)}
 
     const contentListSet = new Set();
+    const pharmcSets = Array.from({ length: 4 }, () => new Set());
+    const allSets = Array.from({ length: filterableHeaders.length }, () => new Set());
+    const allSetsBoundary = [];
     clearFilterContent();
-
-    const sets = [new Set(), new Set(), new Set()]
     
-    dataSheetData.forEach((value, rowIndex) => {
+    dataSheetData.forEach((row, rowIndex) => {
         if (rowIndex === 0) return;
 
         let content = "";
+        let contentArr = [];
         if (colIndex === 3) {
-            for (let i = -1; i < 2; i++) {
-                const item = value[colIndex + i];
-                if (!item) continue;
+            for (let i = -1; i < 3; i++) {
+                const cell = row[colIndex + i];
+                if (!cell) continue;
 
-                item.split(", ").forEach(name => sets[i + 1].add(name));
-            } // **************
+                cell.split(", ").forEach(name => pharmcSets[i + 1].add(name));
+            }
         } else if (colIndex === 14) {
-            console.log("found");
-            let contentArr = [];
-            for (i = -1; i < 1; i++) {
-                if (value[colIndex + i] === "") continue;
-                contentArr.push(value[colIndex + i]);
+            for (let i = -1; i < 1; i++) {
+                if (row[colIndex + i] === "") continue;
+                contentArr.push(row[colIndex + i]);
             }
             content = contentArr.join(", ");        
+        } else if (colIndex === -1) {
+            filterableHeaders.forEach((fcolIndex, setIndex) => {
+                row[fcolIndex - 1].split(", ").forEach(value => {
+                        allSets[setIndex].add(value)
+                    })
+            })
         } else {
-            content += value[colIndex - 1];
+            content += row[colIndex - 1];
         }
 
         if (content === "") return;
 
-        if (colIndex !== 3) content.split(", ").forEach(item => contentListSet.add(item));           
-
-        if (config.filter.length > 0) {
-            config.filter.forEach(filter => {
-                filter.filter.forEach(speFilter => {
-                    contentListSet.delete(speFilter)
-                })
-            })
-        }
+        if (colIndex !== 3) content.split(", ").forEach(cell => contentListSet.add(cell));           
     })
 
     if (colIndex === 3) {
-        contentList = [
-            ...[...sets[0]].sort((a, b) => a.localeCompare(b)),
-            ...[...sets[1]].sort((a, b) => a.localeCompare(b)),
-            ...[...sets[2]].sort((a, b) => a.localeCompare(b))
-        ]; // **************
+        for (let i = 0; i < 4; i++) {
+            [...[...pharmcSets[i]].sort((a, b) => a.localeCompare(b))]
+                .forEach(value => contentListSet.add(value))
+        }
+        contentList = [...contentListSet];
+    } else if (colIndex === -1) {
+        for (let i = 0; i < filterableHeaders.length; i++) {
+            [...[...allSets[i]].sort((a, b) => a.localeCompare(b))]
+                .forEach(value => contentListSet.add(value))
+            allSetsBoundary.push(contentListSet.size - 1);
+        }
+        contentList = [...contentListSet];
     } else {
         contentList = [...contentListSet];
         contentList.sort((a, b) => a.localeCompare(b));
@@ -198,14 +207,20 @@ async function updateContentList(colIndex) {
 
         const contentChoice = document.createElement("li");
         contentChoice.innerHTML = value;
-        contentChoice.classList.add(headerColumns[colIndex].classes[1]);
+
+        if (colIndex === -1) {
+            let rColIndex = findrColIndex(listIndex, allSetsBoundary)
+            contentChoice.classList.add(headerColumns[rColIndex].classes[1])
+        } else {
+            contentChoice.classList.add(headerColumns[colIndex].classes[1])
+        }
 
         HTML.filterContentList.appendChild(contentChoice);
 
         HTML.filterContentChoice[listIndex] = contentChoice;
     });
 
-    addFilterContentOnClick();
+    addFilterContentOnClick(allSetsBoundary);
 } // Add Filter Content Choices
 
 HTML.filterHeaderInput.addEventListener("focus", () => {
@@ -219,7 +234,7 @@ HTML.filterHeaderInput.addEventListener("blur", () => {
 });
 
 HTML.filterContentInput.addEventListener("focus", () => {
-    if (selectedFilterHeader === -1) return;
+    if (selectedFilterHeader === -1) updateContentList(-1);
     HTML.filterContentList.style.display = "block";
     HTML.filterAddHeader.style.borderRadius = "4px 4px 0px 0px";
     HTML.visiBox.style.opacity = 0.25;
@@ -235,7 +250,7 @@ HTML.filterHeaderInput.addEventListener("input", (event) => {
 
     HTML.filterHeaderList.style.display = "block";
     headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
-    selectedFilterHeader = 0;
+    selectedFilterHeader = -1;
 
     if (contentList !== []) clearFilterContent();
 
@@ -288,7 +303,7 @@ HTML.filterHeaderChoice.forEach((value, index) => {
     })
 }); // Click Filter Header Choice
 
-function addFilterContentOnClick() {
+function addFilterContentOnClick(allSetsBoundary) {
     HTML.filterContentChoice.forEach((value, index) => {
         value.addEventListener("mousedown", () => {
             let filterValue = contentList[index];
@@ -296,25 +311,36 @@ function addFilterContentOnClick() {
 
             value.style.display = "none";
 
-            addFilterInput(filterValue);
+            if (selectedFilterHeader === -1) {
+                let rColIndex = findrColIndex(index, allSetsBoundary);
+
+                HTML.filterHeaderInput.value = headerNames[rColIndex];
+                headerStyles.forEach(value => HTML.filterHeaderInput.classList.remove(value))
+                HTML.filterHeaderInput.classList.add(headerColumns[rColIndex].classes[1]);
+
+                selectedFilterHeader = rColIndex;
+            }
+
+            addFilterInput(filterValue, value);
         })
     });
 } // Click Filter Content Choice
 
-function addFilterInput(value) {
-    selectedFilterContent.push(value);
+function addFilterInput(filterValue, choiceHTML) {
+    selectedFilterContent.push(filterValue);
     const newInput = document.createElement("div");
     const newInputButton = document.createElement("div");
 
-    newInput.innerHTML = value;
+    newInput.innerHTML = filterValue;
     newInput.classList.add("filter-new-input", "no-scroll-bar");
 
     newInputButton.classList.add("filter-remove-button");
     newInputButton.textContent = "×";
     newInputButton.addEventListener("click", () => {
         HTML.filterContentNew.removeChild(newInput);
-        selectedFilterContent.splice(selectedFilterContent.indexOf(value), 1);
+        selectedFilterContent.splice(selectedFilterContent.indexOf(filterValue), 1);
         if (selectedFilterContent.length === 0) HTML.filterContentNew.style.display = "none";
+        choiceHTML.style.display = "block";
     })
 
     newInput.appendChild(newInputButton);
@@ -326,7 +352,7 @@ HTML.filterAddButton.addEventListener("click", () => {
     if (selectedFilterHeader == -1 || selectedFilterContent.length == 0) return;
     let newFilter = { header: selectedFilterHeader, filter: [...selectedFilterContent] };
     config.filter.push(newFilter);
-    console.log(headerNames[config.filter[0].header]);
+
     clearFilterHeader();
     clearFilterContent();
     addFilterDisplay(config.filter.lastIndexOf(newFilter));
@@ -376,7 +402,25 @@ function addFilterDisplay(filterNo) {
 
 } // Add Active Filter Display
 
+function findrColIndex(listIndex, allSetsBoundary) {
+    let rColIndex;
+    filterableHeaders.forEach((colIndex, fhIndex) => {
+        if (listIndex <= allSetsBoundary[fhIndex] && 
+            listIndex > ((fhIndex === 0) ? -1 : allSetsBoundary[fhIndex - 1])) {
+                if (colIndex === 4 || colIndex === 5) {
+                    rColIndex = 3;
+                } else if (colIndex === 15) {
+                    rColIndex = 14;
+                } else {
+                    rColIndex = colIndex;
+                }
+        }
+    });
+    return rColIndex;
+}
+
 function clearFilterHeader() {
+    selectedFilterHeader = -1;
     HTML.filterHeaderInput.value = "";
 }
 
@@ -441,20 +485,34 @@ HTML.visiDefaultButton.addEventListener("click", () => {
     if (dataSheetData && firstRun) updateTable();
 })
 
-// Sort
-function sortTable(tbody, index, asc = true) {
-    if (index === 0) return;
+// Sort ***
+function sortTable(tbody, colIndex, asc = true) {
+    if (colIndex === 0) return;
+
+    let eColIndex = [];
+    config.enabledColumns.forEach((enabled, colIndex) => {
+        if (enabled) eColIndex.push(colIndex)
+    });
+    let rColIndex = eColIndex.indexOf(colIndex);
+    let tagCol = eColIndex.indexOf(27);
+
+    if (rColIndex === -1) return;
 
     const dirModifier = asc ? 1 : -1;
     const rows = Array.from(tbody.querySelectorAll('tr'));
     const drugNoContent = rows.map(row => row.cells[0].innerHTML);
 
     const sortedRows = rows.sort((rowA, rowB) => {
-        const cellA = rowA.cells[index].textContent.trim();
-        const cellB = rowB.cells[index].textContent.trim();
- 
+        const cellA = rowA.cells[rColIndex].textContent.trim();
+        const cellB = rowB.cells[rColIndex].textContent.trim();
+
+        const ANotInHK = tagCol !== -1 && rowA.cells[tagCol].textContent.includes("NR");
+        const BNotInHK = tagCol !== -1 && rowB.cells[tagCol].textContent.includes("NR");
+
         const isEmpty = (cellA === "") || (cellB === "");
-        if (isEmpty) {
+        if (ANotInHK || BNotInHK) {
+            return ANotInHK === BNotInHK ? 0 : (ANotInHK === true ? 1 : -1);
+        } else if (isEmpty) {
             return cellA === cellB ? 0 : (cellA === "" ? 1 : -1);
         } else {
             return cellA.localeCompare(cellB) * dirModifier;

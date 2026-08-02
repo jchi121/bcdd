@@ -123,17 +123,17 @@
 }
 
 .intro-prog-table .prog-state-red {
-    color: #FFA2A2;
+    color: #E7180B;
 }
 
 .intro-prog-table .prog-state-yellow-1 {
-    color: #FFD230;
+    color: #FFB93B;
 }
 
 .intro-prog-table .prog-state-yellow-2 {
-    color: #FFB86A;
+    color: #FE9A37;
 }
 
 .intro-prog-table .prog-state-green {
-    color: #9AE630;
+    color: #7CCF35;
 }

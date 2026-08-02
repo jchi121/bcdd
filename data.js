@@ -25,12 +25,12 @@ const headerColumns = [
     {
         name: "", // 4
         classes: ["w1", "pharmc", "no-leftb"],
-        isFilterable: false,
+        isFilterable: true,
     },
     {
         name: "", // 5
         classes: ["w1", "pharmc", "no-leftb"],
-        isFilterable: false,
+        isFilterable: true,
     },
     {
         name: "Add. Pharm. Class", // 6
@@ -155,9 +155,14 @@ const headerColumns = [
 ];
 
 const headerNames = [];
-headerColumns.forEach((value) => {
-    headerNames.push(value.name);
+headerColumns.forEach(value => headerNames.push(value.name));
+
+const filterableHeaders = [];
+headerColumns.forEach((value, index) => {
+    if (value.isFilterable === false) return;
+    filterableHeaders.push(index);
 });
+console.log(filterableHeaders);
 
 const headerStyles = ["basic", "pharmc", "therap", "practuse", "practsafe", "pk"];
 

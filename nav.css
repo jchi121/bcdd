@@ -90,7 +90,7 @@ nav * {
 }
 
 .config-box {
-    min-height: 40px;
+    min-height: 50px;
 
     background: var(--bg-color-lighter2);
     border: 1px solid var(--bg-color-darker);
@@ -148,6 +148,7 @@ nav input::placeholder{
 
 /* Config: Filter */
 .filter-active-box {
+    min-height: 46px;
     overflow: hidden;
 }
 
@@ -290,7 +291,7 @@ nav input::placeholder{
 
 /* Config: Visibility & Order */
 .visibility-box {
-    max-height: 50vh;
+    max-height: 30vh;
     overflow-y: scroll;
 }
 
