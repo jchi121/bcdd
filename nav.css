@@ -355,6 +355,10 @@ nav input::placeholder{
     z-index: 1;
 }
 
+.side-refresh button:hover {
+    background: var(--bg-color-darker);
+}
+
 /* Misc */
 .no-scroll-bar {
     -ms-overflow-style: none; 

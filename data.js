@@ -82,7 +82,7 @@ const headerColumns = [
     },
     {
         name: "", // 15
-        classes: ["w2", "practsafe", "no-leftb"],
+        classes: ["w2", "practsafe"],
         isFilterable: true,
     },
     {
@@ -162,7 +162,6 @@ headerColumns.forEach((value, index) => {
     if (value.isFilterable === false) return;
     filterableHeaders.push(index);
 });
-console.log(filterableHeaders);
 
 const headerStyles = ["basic", "pharmc", "therap", "practuse", "practsafe", "pk"];
 

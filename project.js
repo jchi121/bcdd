@@ -185,10 +185,9 @@ async function updateContentList(colIndex) {
     } else if (colIndex === -1) {
         for (let i = 0; i < filterableHeaders.length; i++) {
             [...[...allSets[i]].sort((a, b) => a.localeCompare(b))]
-                .forEach(value => contentListSet.add(value))
-            allSetsBoundary.push(contentListSet.size - 1);
+                .forEach(value => contentList.push(value))
+            allSetsBoundary.push(contentList.length - 1);
         }
-        contentList = [...contentListSet];
     } else {
         contentList = [...contentListSet];
         contentList.sort((a, b) => a.localeCompare(b));
