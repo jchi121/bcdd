@@ -19,7 +19,7 @@ function updateTable() {
         const passed = config.filter.every(speFilter => {
             const cells =
                 speFilter.header === 3 ? [row[2], row[3], row[4], row[5]] :
-                speFilter.header === 14 ? [row[13], row[14]] :
+                speFilter.header === 15 ? [row[14], row[15]] :
                 [row[speFilter.header - 1]];
 
             return speFilter.filter.some(filterValue =>
@@ -44,7 +44,7 @@ function updateTable() {
             if ((index === 4 || index === 5) && !config.enabledColumns[3]) return;
             if ((index === 15) && !config.enabledColumns[14]) return;
 
-            if ((value === "") && type === "th") return; // Header Colspan Check
+            if ((headerColumns[index].isMerged) && type === "th") return; // Header Colspan Check
 
             if (index === 1 && searchDrugText.length > 1) { 
                 value = value.replaceAll(regex_searchDrugText, match => 
@@ -64,7 +64,7 @@ function updateTable() {
                 cell.setAttribute("colspan", "3");
             } // Header Colspan (Pharm Class)
 
-            if (index === 14 && type === "th") {
+            if (index === 15 && type === "th") {
                 cell.setAttribute("colspan", "2");
             } // Header Colspan (ADR)
 
@@ -122,7 +122,7 @@ HTML.searchGen.addEventListener("input", () => {
 let selectedFilterHeader = -1;
 const selectedFilterContent = [];
 headerNames.forEach((value, index) => {
-    if (value === "") return;
+    if (headerColumns[index].isMerged) return;
     if (!headerColumns[index].isFilterable) return;
 
     const headerChoice = document.createElement("li");
@@ -148,14 +148,14 @@ async function updateContentList(colIndex) {
 
         let content = "";
         let contentArr = [];
-        if (colIndex === 3) {
+        if (colIndex === getColIndex("Pharmacological Class")) {
             for (let i = -1; i < 3; i++) {
                 const cell = row[colIndex + i];
                 if (!cell) continue;
 
                 cell.split(", ").forEach(name => pharmcSets[i + 1].add(name));
             }
-        } else if (colIndex === 14) {
+        } else if (colIndex === getColIndex("Adverse Effects")) {
             for (let i = -1; i < 1; i++) {
                 if (row[colIndex + i] === "") continue;
                 contentArr.push(row[colIndex + i]);
@@ -408,8 +408,8 @@ function findrColIndex(listIndex, allSetsBoundary) {
             listIndex > ((fhIndex === 0) ? -1 : allSetsBoundary[fhIndex - 1])) {
                 if (colIndex === 4 || colIndex === 5) {
                     rColIndex = 3;
-                } else if (colIndex === 15) {
-                    rColIndex = 14;
+                } else if (colIndex === 16) {
+                    rColIndex = 15;
                 } else {
                     rColIndex = colIndex;
                 }
@@ -436,7 +436,7 @@ function clearFilterContent() {
 // Visibility & Order
 let realCount = 0;
 headerNames.forEach((value, index) => {
-    if (value === "") return;
+    if (headerColumns[index].isMerged) return;
     const name = document.createElement("div");
     const button = document.createElement("div");
 
@@ -493,7 +493,8 @@ function sortTable(tbody, colIndex, asc = true) {
         if (enabled) eColIndex.push(colIndex)
     });
     let rColIndex = eColIndex.indexOf(colIndex);
-    let tagCol = eColIndex.indexOf(27);
+    let haformCol = eColIndex.indexOf(getColIndex("HA Formulary Class."));
+    let tagCol = eColIndex.indexOf(getColIndex("Tags"));
 
     if (rColIndex === -1) return;
 
@@ -505,8 +506,8 @@ function sortTable(tbody, colIndex, asc = true) {
         const cellA = rowA.cells[rColIndex].textContent.trim();
         const cellB = rowB.cells[rColIndex].textContent.trim();
 
-        const ANotInHK = tagCol !== -1 && rowA.cells[tagCol].textContent.includes("NR");
-        const BNotInHK = tagCol !== -1 && rowB.cells[tagCol].textContent.includes("NR");
+        const ANotInHK = tagCol !== -1 && haformCol !== -1 && checkNotInHK(rowA);
+        const BNotInHK = tagCol !== -1 && haformCol !== -1 && checkNotInHK(rowB);
 
         const isEmpty = (cellA === "") || (cellB === "");
         if (ANotInHK || BNotInHK) {
@@ -522,6 +523,11 @@ function sortTable(tbody, colIndex, asc = true) {
         row.cells[0].innerHTML = drugNoContent[index];
         tbody.appendChild(row);
     });
+
+    function checkNotInHK(row) {
+        return row.cells[tagCol].textContent.includes("NR") && 
+            (row.cells[haformCol].textContent === ("Not Listed"))
+    }
 }
 
 // Run Button
@@ -539,3 +545,9 @@ document.addEventListener("keydown", (event) => {
     firstRun = true;
     updateData();
 });
+
+// Misc
+function getColIndex(colName, withNo = false) {
+    let addCol = withNo? 1 : 0;
+    return headerNames.indexOf(colName) + addCol;
+}

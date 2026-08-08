@@ -5,152 +5,187 @@ const headerColumns = [
         name: "No.", // 0
         classes: ["w0", "basic", "drug-no"],
         isFilterable: false,
+        isMerged: false,
     },
     {
         name: "Generic Name", // 1
         classes: ["w1f", "basic", "no-scroll"],
         isFilterable: false,
+        isMerged: false,
     },
     {
         name: "Brand Name", // 2
         classes: ["w1", "basic"],
         isFilterable: false,
+        isMerged: false,
     },
 
     {
         name: "Pharmacological Class", // 3
         classes: ["w1", "pharmc"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "", // 4
+        name: "Pharm. Subclass 1", // 4
         classes: ["w1", "pharmc", "no-leftb"],
         isFilterable: true,
+        isMerged: true,
     },
     {
-        name: "", // 5
+        name: "Pharm. Subclass 2", // 5
         classes: ["w1", "pharmc", "no-leftb"],
         isFilterable: true,
+        isMerged: true,
     },
     {
         name: "Add. Pharm. Class", // 6
         classes: ["w1", "pharmc"],
         isFilterable: true,
+        isMerged: false,
     },
 
     {
         name: "Therapeutic Class", // 7
         classes: ["w3", "therap"],
         isFilterable: true,
+        isMerged: false,
     },
     {
         name: "Indications", // 8
         classes: ["w3", "therap"],
         isFilterable: true,
+        isMerged: false,
     },
     {
         name: "Affected Systems", // 9
         classes: ["w1", "therap"],
         isFilterable: true,
+        isMerged: false,
     },
 
     {
         name: "Route of Administration", // 10
         classes: ["w2", "practuse"],
         isFilterable: true,
+        isMerged: false,
     },
     {
         name: "Dosage", // 11
         classes: ["w2", "practuse"],
         isFilterable: false,
+        isMerged: false,
     },
     {
         name: "Counseling Points", // 12
         classes: ["w2", "practuse"],
         isFilterable: true,
+        isMerged: false,
     },
     {
         name: "Legal Classification", // 13
         classes: ["w2", "practuse"],
         isFilterable: true,
+        isMerged: false,
+    },
+    {
+        name: "HA Formulary Class.", // 14
+        classes: ["w2", "practuse"],
+        isFilterable: true,
+        isMerged: false,
     },
 
     {
-        name: "Adverse Effects", // 14
+        name: "Adverse Effects", // 15
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "", // 15
+        name: "Adverse Effects 2", // 16
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: true,
     },
     {
-        name: "Contraindications", // 16
+        name: "Contraindications", // 17
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Precautions", // 17
+        name: "Precautions", // 18
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Drug Interactions", // 18
+        name: "Drug Interactions", // 19
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Food Interactions", // 19
+        name: "Food Interactions", // 20
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Special Populations", // 20
+        name: "Special Populations", // 21
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Monitoring", // 21
+        name: "Monitoring", // 22
         classes: ["w2", "practsafe"],
         isFilterable: true,
+        isMerged: false,
     },
 
     {
-        name: "Absorption", // 22
+        name: "Absorption", // 23
         classes: ["w1", "pk"],
         isFilterable: false,
+        isMerged: false,
     },
     {
-        name: "Distribution", // 23
+        name: "Distribution", // 24
         classes: ["w1", "pk"],
         isFilterable: false,
+        isMerged: false,
     },
     {
-        name: "Metabolism", // 24
+        name: "Metabolism", // 25
         classes: ["w1", "pk"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Elimination", // 25
+        name: "Elimination", // 26
         classes: ["w1", "pk"],
         isFilterable: false,
+        isMerged: false,
     },
 
     {
-        name: "Notes", // 26
+        name: "Notes", // 27
         classes: ["w1", "basic"],
         isFilterable: false,
+        isMerged: false,
     },
     {
-        name: "Tags", // 27
+        name: "Tags", // 28
         classes: ["w1", "basic"],
         isFilterable: true,
+        isMerged: false,
     },
     {
-        name: "Encounters", // 28
+        name: "Encounters", // 29
         classes: ["w1", "basic"],
         isFilterable: true,
+        isMerged: false,
     },
 ];
 
